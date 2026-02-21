@@ -17,12 +17,6 @@ import { ProtoFileViewer } from './ProtoFileViewer';
 import { Certificate, ProtoInfo, GRPCEventEmitter } from '../../behaviour';
 import { getMetadata, getUrl, storeUrl } from '../../storage';
 
-import ace from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-textmate';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/mode-protobuf';
-import jsonWorkerUrl from 'ace-builds/src-noconflict/worker-json?url';
-ace.config.setModuleUrl('ace/mode/json_worker', jsonWorkerUrl);
 import { exportResponseToJSONFile } from "../../behaviour/response";
 import { Resizable } from "re-resizable";
 import { AddressBar } from "./AddressBar";

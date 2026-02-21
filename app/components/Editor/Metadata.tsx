@@ -1,8 +1,9 @@
 import { Icon } from 'antd';
-import AceEditor from 'react-ace';
 import { Resizable } from 're-resizable';
 import { storeMetadata } from "../../storage";
 import { useState } from "react";
+import CodeMirror from '@uiw/react-codemirror';
+import { json } from '@codemirror/lang-json';
 
 interface MetadataProps {
   onClickMetadata: () => void,
@@ -46,26 +47,20 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
         </div>
 
         <div>
-          <AceEditor
-            width={"100%"}
-            style={{ background: "#f5f5f5" }}
+          <CodeMirror
+            value={value}
             height={`${height + 20}px`}
-            mode="json"
-            focus={visibile}
-            theme="textmate"
-            fontSize={13}
-            name="metadata"
+            extensions={[json()]}
             onChange={(value) => {
               storeMetadata(value);
               onMetadataChange(value);
             }}
-            showPrintMargin={false}
-            showGutter
-            highlightActiveLine={false}
-            value={value}
-            setOptions={{
-              useWorker: true
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLine: false,
+              foldGutter: false,
             }}
+            style={{ fontSize: 13, background: "#f5f5f5" }}
           />
         </div>
       </div>

@@ -191,8 +191,13 @@ export default defineConfig({
         },
         output: {
           format: 'cjs',
-          // Handle default exports from CJS packages (react-ace, etc.)
+          // Handle default exports from CJS packages
           interop: 'compat',
+          // Wrap in IIFE to prevent top-level declarations (e.g. CodeMirror's
+          // `const top`) from conflicting with browser globals like window.top.
+          // require/module/exports are available via Electron's nodeIntegration.
+          banner: '(function() {',
+          footer: '})();',
         },
       },
     },

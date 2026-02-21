@@ -101,6 +101,7 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
 
         <Modal
           title="Environment Name"
+          transitionName="" maskTransitionName=""
           visible={saveModalVisible}
           onOk={handleSave}
           onCancel={() => { setSaveModalVisible(false); setNewEnvironmentName(""); }}
@@ -118,6 +119,7 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
 
         <Modal
           title={`Update ${currentEnvironmentName}?`}
+          transitionName="" maskTransitionName=""
           visible={updateModalVisible}
           onOk={handleUpdate}
           onCancel={() => setUpdateModalVisible(false)}
@@ -129,6 +131,7 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
 
         <Modal
           title={`Delete ${currentEnvironmentName}?`}
+          transitionName="" maskTransitionName=""
           visible={deleteModalVisible}
           onOk={handleDelete}
           onCancel={() => setDeleteModalVisible(false)}

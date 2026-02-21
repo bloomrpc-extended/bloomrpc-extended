@@ -133,6 +133,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                     <span style={{marginLeft: 10}}> Import Paths </span>
                   </div>
               )}
+              transitionName="" maskTransitionName=""
               visible={importPathVisible}
               onCancel={() => setImportPathsVisible(false)}
               onOk={() => setImportPathsVisible(false)}
@@ -155,6 +156,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                 <span style={{marginLeft: 10}}> Import from server reflection </span>
               </div>
             )}
+            transitionName="" maskTransitionName=""
             visible={importReflectionVisible}
             onCancel={() => setImportReflectionVisible(false)}
             onOk={() => setImportReflectionVisible(false)}

@@ -49,6 +49,7 @@ export function Options({ dispatch, grpcWebChecked, interactiveChecked, onIntera
                     <span style={{marginLeft: 10}}> TLS / SSL Manager </span>
                   </div>
               )}
+              transitionName="" maskTransitionName=""
               visible={tlsModalVisible}
               onCancel={() => setTlsModalVisible(false)}
               onOk={() => setTlsModalVisible(false)}

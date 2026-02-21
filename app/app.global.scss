@@ -170,3 +170,25 @@
     margin-left: 0px !important;
   }
 }
+
+// Open-only keyframe animations for modals/drawers.
+// rc-animate is disabled (transitionName="") to avoid flicker
+// with React 18's automatic batching. These fire on mount only.
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes maskEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes drawerSlideRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.ant-modal { animation: modalEnter 200ms ease-out; }
+.ant-modal-mask { animation: maskEnter 200ms ease-out; }
+.ant-drawer.ant-drawer-open .ant-drawer-content-wrapper {
+  animation: drawerSlideRight 250ms ease-out;
+}

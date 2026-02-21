@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useEffect, useReducer } from 'react';
 import {
   actions,
@@ -18,11 +17,14 @@ import { ProtoFileViewer } from './ProtoFileViewer';
 import { Certificate, ProtoInfo, GRPCEventEmitter } from '../../behaviour';
 import { getMetadata, getUrl, storeUrl } from '../../storage';
 
-import 'brace/theme/textmate';
-import 'brace/mode/json';
-import 'brace/mode/protobuf';
+import ace from 'ace-builds';
+import 'ace-builds/src-noconflict/theme-textmate';
+import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/mode-protobuf';
+import jsonWorkerUrl from 'ace-builds/src-noconflict/worker-json?url';
+ace.config.setModuleUrl('ace/mode/json_worker', jsonWorkerUrl);
 import { exportResponseToJSONFile } from "../../behaviour/response";
-import Resizable from "re-resizable";
+import { Resizable } from "re-resizable";
 import { AddressBar } from "./AddressBar";
 import { deleteEnvironment, getEnvironments, saveEnvironment } from "../../storage/environments";
 
@@ -164,7 +166,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
     grpcWeb: initialRequest ? initialRequest.grpcWeb : INITIAL_STATE.grpcWeb,
     metadata: (initialRequest && initialRequest.metadata) || getMetadata() || INITIAL_STATE.metadata,
     environment: (initialRequest && initialRequest.environment),
-  }, undefined);
+  });
 
   useEffect(() => {
     if (protoInfo && !initialRequest) {

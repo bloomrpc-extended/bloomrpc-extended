@@ -48,7 +48,7 @@ export function PathResolution({ importPaths, onImportsChange }: PathResolutionP
                           setPathStateValue(path);
                           addImportPath(path, importPaths, onImportsChange);
                         }
-                        } catch (e) {
+                        } catch {
                           // No file selected.
                         }
                       }}
@@ -103,7 +103,7 @@ function addImportPath(
 ): boolean {
   if (path !== "" && importPaths.indexOf(path) === -1) {
     const paths = [...importPaths, path];
-    setImportPath && setImportPath(paths);
+    setImportPath?.(paths);
     storeImportPaths(paths);
     return true;
   }
@@ -117,6 +117,6 @@ function removePath(
   setImportPath?: (path: string[]) => void,
 ) {
   const newPaths = importPaths.filter(currentPath => currentPath !== path);
-  setImportPath && setImportPath(newPaths);
+  setImportPath?.(newPaths);
   storeImportPaths(newPaths);
 }

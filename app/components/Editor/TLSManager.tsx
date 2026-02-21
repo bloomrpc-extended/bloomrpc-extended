@@ -30,7 +30,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                   const cert = await handleImportRootCert(certs, setCerts);
 
                   if (cert && cert.rootCert.filePath === (selected && selected.rootCert.filePath)) {
-                    onSelected && onSelected(cert);
+                    onSelected?.(cert);
                   }
                 }}
                 style={{
@@ -52,7 +52,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                         name={"tls"}
                         value={""}
                         checked={!selected}
-                        onChange={() => onSelected && onSelected()}
+                        onChange={() => onSelected?.()}
                     />
                 )}
                 key="radio"
@@ -62,7 +62,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                             name={"tls"}
                             value={certificate.rootCert.filePath}
                             checked={selected && certificate.rootCert.filePath === selected.rootCert.filePath}
-                            onChange={() => onSelected && onSelected(certificate)}
+                            onChange={() => onSelected?.(certificate)}
                         />
                     </div>
                 )}
@@ -93,7 +93,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                                   e.preventDefault();
                                   const cert = await handleImportPrivateKey(certificate, certs, setCerts);
                                   if (cert && cert.rootCert.filePath === (selected && selected.rootCert.filePath)) {
-                                    onSelected && onSelected(cert);
+                                    onSelected?.(cert);
                                   }
                                 }}>Import Key</a>
                             )}
@@ -120,7 +120,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                                   e.preventDefault();
                                   const cert = await handleImportCertChain(certificate, certs, setCerts);
                                   if (cert && cert.rootCert.filePath === (selected && selected.rootCert.filePath)) {
-                                    onSelected && onSelected(cert);
+                                    onSelected?.(cert);
                                   }
                                 }}>Import Cert Chain</a>
                             )}
@@ -144,7 +144,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                       );
 
                       if (cert && cert.rootCert.filePath === (selected && selected.rootCert.filePath)) {
-                        onSelected && onSelected(cert);
+                        onSelected?.(cert);
                       }
                     }}/>
                 )
@@ -161,7 +161,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
                         type="close"
                         onClick={() => {
                           if (selected && selected.rootCert.filePath === certificate.rootCert.filePath) {
-                            onSelected && onSelected();
+                            onSelected?.();
                           }
                           deleteCertificateEntry(certificate, certs, setCerts);
                         }}
@@ -189,7 +189,7 @@ async function handleImportRootCert(certs: Certificate[], setCerts: React.Dispat
     setCerts(newCerts);
 
     return certificate;
-  } catch (e) {
+  } catch {
     // No file selected.
   }
 }
@@ -207,7 +207,7 @@ async function handleImportPrivateKey(
 
     setCerts(certs);
     return certificate;
-  } catch (e) {
+  } catch {
     // No file Selected
   }
 }
@@ -225,7 +225,7 @@ async function handleImportCertChain(
 
     setCerts(certs);
     return certificate;
-  } catch (e) {
+  } catch {
     // No file Selected
   }
 }

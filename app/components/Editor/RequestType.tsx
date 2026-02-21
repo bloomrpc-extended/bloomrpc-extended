@@ -30,7 +30,7 @@ const styles = {
     textOverflow: "ellipsis",
     maxWidth: "125px",
     overflow: "hidden",
-    whiteSpace: "nowrap" as "nowrap",
+    whiteSpace: "nowrap" as const,
     width: "100%",
   },
   badge: {

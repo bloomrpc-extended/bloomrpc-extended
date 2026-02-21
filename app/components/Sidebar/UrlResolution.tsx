@@ -21,7 +21,7 @@ export function UrlResolution({ onImportFromUrl }: UrlResolutionProps) {
               setUrlValue(e.target.value);
             }}
             onSearch={async () => {
-              onImportFromUrl && onImportFromUrl(urlValue);
+              onImportFromUrl?.(urlValue);
               setUrlValue("");
             }}
           />

@@ -14,8 +14,7 @@ export interface Certificate {
     useServerCertificate?: boolean;
 }
 
-export function importRootCert(): Promise<Certificate> {
-    return new Promise(async (resolve, reject) => {
+export async function importRootCert(): Promise<Certificate> {
         const openDialogResult = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile'],
             filters: [
@@ -24,25 +23,22 @@ export function importRootCert(): Promise<Certificate> {
         });
 
         const filePaths = openDialogResult.filePaths;
-        
+
         if (!filePaths || filePaths.length === 0) {
-            reject("No file selected");
-            return;
+            throw new Error("No file selected");
         }
 
         const filePath = filePaths[0];
 
-        resolve({
+        return {
             rootCert: {
                 fileName: path.basename(filePath),
                 filePath: filePath,
             },
-        });
-    });
+        };
 }
 
-export function importPrivateKey(): Promise<CertFile> {
-    return new Promise(async (resolve, reject) => {
+export async function importPrivateKey(): Promise<CertFile> {
         const openDialogResult = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile'],
             filters: [
@@ -52,17 +48,15 @@ export function importPrivateKey(): Promise<CertFile> {
 
         const filePaths = openDialogResult.filePaths;
         if (!filePaths || filePaths.length === 0) {
-            return reject("No file selected");
+            throw new Error("No file selected");
         }
-        resolve({
+        return {
             filePath: filePaths[0],
             fileName: path.basename(filePaths[0]),
-        });
-    });
+        };
 }
 
-export function importCertChain(): Promise<CertFile> {
-    return new Promise(async (resolve, reject) => {
+export async function importCertChain(): Promise<CertFile> {
         const openDialogResult = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile'],
             filters: [
@@ -73,11 +67,10 @@ export function importCertChain(): Promise<CertFile> {
         const filePaths = openDialogResult.filePaths;
 
         if (!filePaths || filePaths.length === 0) {
-            return reject("No file selected");
+            throw new Error("No file selected");
         }
-        resolve({
+        return {
             filePath: filePaths[0],
             fileName: path.basename(filePaths[0]),
-        });
-    });
+        };
 }

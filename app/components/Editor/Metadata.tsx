@@ -26,7 +26,7 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
         className="meatada-panel"
          style={{
            ...styles.optionContainer,
-           ...{bottom: `-38px`, height: `${height}px`},
+           bottom: `-38px`, height: `${height}px`,
          }}
     >
       <div>
@@ -80,7 +80,7 @@ const styles = {
     marginBottom: "5px"
   },
   optionContainer: {
-    position: "absolute" as "absolute",
+    position: "absolute" as const,
     fontWeight: 900,
     fontSize: "13px",
     borderLeft: "1px solid rgba(0, 21, 41, 0.18)",

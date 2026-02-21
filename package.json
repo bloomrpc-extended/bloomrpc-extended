@@ -1,6 +1,6 @@
 {
-  "name": "bloomrpc",
-  "productName": "BloomRPC",
+  "name": "bloomrpc-extended",
+  "productName": "BloomRPC Extended",
   "version": "1.5.3",
   "description": "GRPC GUI client",
   "main": "app/out/main/index.js",
@@ -24,8 +24,8 @@
     ]
   },
   "build": {
-    "productName": "BloomRPC",
-    "appId": "io.github.utilitywarehouse.BloomRPC",
+    "productName": "BloomRPC Extended",
+    "appId": "io.github.ahmethakanbesel.BloomRPCExtended",
     "extraResources": [
       {
         "from": "static",
@@ -78,23 +78,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uw-labs/bloomrpc.git"
+    "url": "git+https://github.com/ahmethakanbesel/bloomrpc-extended.git"
   },
   "author": {
     "name": "Fabrizio Fenoglio (UtilityWarehouse)"
   },
   "license": "LGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/uw-labs/bloomrpc/issues"
+    "url": "https://github.com/ahmethakanbesel/bloomrpc-extended/issues"
   },
   "keywords": [
     "gRPC",
     "GUI",
     "bloomRPC",
-    "BloomRPC",
+    "BloomRPC Extended",
     "gRPC GUI"
   ],
-  "homepage": "https://github.com/uw-labs/bloomrpc",
+  "homepage": "https://github.com/ahmethakanbesel/bloomrpc-extended",
   "devDependencies": {
     "@types/history": "^4.7.2",
     "@types/mousetrap": "^1.6.1",

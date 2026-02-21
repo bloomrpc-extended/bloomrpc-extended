@@ -45,17 +45,17 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: MenuItemConstructorOptions = {
-      label: 'BloomRPC',
+      label: 'BloomRPC Extended',
       submenu: [
         {
-          label: 'About BloomRPC',
+          label: 'About BloomRPC Extended',
           role: 'about',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
         { type: 'separator' },
         {
-          label: 'Hide BloomRPC',
+          label: 'Hide BloomRPC Extended',
           accelerator: 'Command+H',
           role: 'hide',
         },
@@ -162,27 +162,27 @@ export default class MenuBuilder {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://github.com/uw-labs/bloomrpc');
+            shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended');
           },
         },
         {
           label: 'Documentation',
           click() {
             shell.openExternal(
-              'https://github.com/uw-labs/bloomrpc/blob/master/README.md'
+              'https://github.com/ahmethakanbesel/bloomrpc-extended/blob/master/README.md'
             );
           },
         },
         {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
+            shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended/issues');
           },
         },
         {
           label: 'Search Issues',
           click() {
-            shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
+            shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended/issues');
           },
         },
       ],
@@ -264,31 +264,31 @@ export default class MenuBuilder {
           {
             label: 'Learn More',
             click() {
-              shell.openExternal('https://github.com/uw-labs/bloomrpc');
+              shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended');
             },
           },
           {
             label: 'Documentation',
             click() {
               shell.openExternal(
-                'https://github.com/uw-labs/bloomrpc/blob/master/README.md'
+                'https://github.com/ahmethakanbesel/bloomrpc-extended/blob/master/README.md'
               );
             },
           },
           {
             label: 'Community Discussions',
             click() {
-              shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
+              shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended/issues');
             },
           },
           {
             label: 'Search Issues',
             click() {
-              shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
+              shell.openExternal('https://github.com/ahmethakanbesel/bloomrpc-extended/issues');
             },
           },
           {
-            label: 'About BloomRPC',
+            label: 'About BloomRPC Extended',
             click: () => {
               openAboutWindow(this.mainWindow);
             },

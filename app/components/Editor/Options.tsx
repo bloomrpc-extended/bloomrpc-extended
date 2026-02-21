@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Button, Icon, Tooltip, Switch, Modal, Menu, Dropdown } from 'antd';
+import { Button, Tooltip, Switch, Modal, Dropdown, Menu, Icon } from 'antd';
 import { setInteractive, setProtoVisibility, setGrpcWeb } from './actions';
 import { EditorAction } from './Editor';
 import {useState} from "react";
@@ -17,7 +16,7 @@ interface OptionsProps {
   onClickExport?: () => void
 }
 
-export function Options({ protoInfo, dispatch, grpcWebChecked, interactiveChecked, onInteractiveChange, tlsSelected, onTLSSelected, onClickExport }: OptionsProps) {
+export function Options({ dispatch, grpcWebChecked, interactiveChecked, onInteractiveChange, tlsSelected, onTLSSelected, onClickExport }: OptionsProps) {
 
   const [tlsModalVisible, setTlsModalVisible] = useState(false);
 
@@ -30,13 +29,10 @@ export function Options({ protoInfo, dispatch, grpcWebChecked, interactiveChecke
             alignItems: "center",
           }}>
             <Tooltip placement="bottom" title={tlsSelected ? "Secure Connection" : "Unsecure Connection"}>
-              <Icon
-                  type={tlsSelected ? "lock" : "unlock"}
-                  style={{
-                    fontSize: 18,
-                    color: tlsSelected ? "#28d440" : "#bdbcbc",
-                  }}
-              />
+              {tlsSelected
+                ? <Icon type="lock" style={{ fontSize: 18, color: "#28d440" }} />
+                : <Icon type="unlock" style={{ fontSize: 18, color: "#bdbcbc" }} />
+              }
             </Tooltip>
             <span
               onClick={() => setTlsModalVisible(true)}
@@ -56,7 +52,7 @@ export function Options({ protoInfo, dispatch, grpcWebChecked, interactiveChecke
               visible={tlsModalVisible}
               onCancel={() => setTlsModalVisible(false)}
               onOk={() => setTlsModalVisible(false)}
-              bodyStyle={{padding: 0}}
+              bodyStyle={{ padding: 0 }}
               width={750}
               okText={"Done"}
               cancelText={"Close"}
@@ -69,16 +65,16 @@ export function Options({ protoInfo, dispatch, grpcWebChecked, interactiveChecke
       </div>
 
       <div style={{ ...styles.inline }}>
-        <Dropdown overlay={(
-            <Menu>
-              <Menu.Item key="0">
-                <a onClick={(e) => {
-                  e.preventDefault();
-                  onClickExport && onClickExport()
-                }}>Export response</a>
-              </Menu.Item>
-            </Menu>
-        )} trigger={['click']}>
+        <Dropdown
+            overlay={(
+              <Menu>
+                <Menu.Item key="0" onClick={() => onClickExport && onClickExport()}>
+                  Export response
+                </Menu.Item>
+              </Menu>
+            )}
+            trigger={['click']}
+        >
           <div style={{ marginRight: 5, marginTop: 2, cursor: 'pointer', color: "#b5b5b5"}} >
             <Icon type="caret-down" />
           </div>
@@ -106,7 +102,7 @@ export function Options({ protoInfo, dispatch, grpcWebChecked, interactiveChecke
         </div>
 
         <Button
-          icon="file-ppt"
+          icon="file"
           type="dashed"
           onClick={() => dispatch(setProtoVisibility(true))}
         >

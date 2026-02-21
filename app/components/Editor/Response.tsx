@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { Tabs } from 'antd';
 import { Viewer } from './Viewer';
 import { EditorResponse } from "./Editor";
+import logoIcon from './../../../resources/blue/128x128.png';
 
 interface ResponseProps {
   streamResponse: EditorResponse[]
@@ -10,6 +10,7 @@ interface ResponseProps {
 
 export function Response({response, streamResponse}: ResponseProps) {
   const defaultKey = `responseTab`;
+
   return (
     <>
       <Tabs
@@ -17,30 +18,31 @@ export function Response({response, streamResponse}: ResponseProps) {
         tabPosition={"top"}
         style={{width: "100%", height: "height: calc(100vh - 181px)"}}
       >
-        {streamResponse.length === 0 && (
-          <Tabs.TabPane tab={"Response"} key={"unaryResponse"}>
-              <Viewer
-                  output={response.output}
-                  responseTime={response.responseTime}
-                  emptyContent={(
-                    <div style={{position: "relative", height: "325px"}}>
-                      <div style={styles.introContainer}>
-                        <img src={require('./../../../resources/blue/128x128.png')} style={{ opacity: 0.1, pointerEvents: "none", userSelect: "none" }}/>
-                        <h1 style={styles.introTitle}>Hit the play button to get a response here</h1>
-                      </div>
-                    </div>
-                )}
-              />
-          </Tabs.TabPane>
-        )}
-        {streamResponse.map((data, key) => (
-          <Tabs.TabPane tab={`Stream ${key + 1}`} key={`response-${key}`}>
+        {streamResponse.length === 0 ? (
+          <Tabs.TabPane tab="Response" key="unaryResponse">
             <Viewer
-                output={data.output}
-                responseTime={data.responseTime}
+              output={response.output}
+              responseTime={response.responseTime}
+              emptyContent={(
+                <div style={{position: "relative", height: "325px"}}>
+                  <div style={styles.introContainer}>
+                    <img src={logoIcon} style={{ opacity: 0.1, pointerEvents: "none", userSelect: "none" }}/>
+                    <h1 style={styles.introTitle}>Hit the play button to get a response here</h1>
+                  </div>
+                </div>
+              )}
             />
           </Tabs.TabPane>
-        ))}
+        ) : (
+          streamResponse.map((data, key) => (
+            <Tabs.TabPane tab={`Stream ${key + 1}`} key={`response-${key}`}>
+              <Viewer
+                output={data.output}
+                responseTime={data.responseTime}
+              />
+            </Tabs.TabPane>
+          ))
+        )}
       </Tabs>
     </>
   )
@@ -48,14 +50,14 @@ export function Response({response, streamResponse}: ResponseProps) {
 
 const styles = {
   introContainer: {
-    textAlign: "center" as "center",
+    textAlign: "center" as const,
     margin: "20% 30% auto",
     width: "45%",
-    position: "absolute" as "absolute",
+    position: "absolute" as const,
     zIndex: 7,
   },
   introTitle: {
-    userSelect: "none" as "none",
+    userSelect: "none" as const,
     color: "rgba(17, 112, 134, 0.58)",
     fontSize: "25px",
     top: "120px",

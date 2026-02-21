@@ -133,7 +133,8 @@ export function PlayButton({ dispatch, state, protoInfo, active }: ControlsState
   return (
     <Icon
       type={state.loading ? "pause-circle" : "play-circle"}
-      theme="filled" style={{ ...styles.playIcon, ...(state.loading ? { color: "#ea5d5d" } : {}) }}
+      theme="filled"
+      style={{ ...styles.playIcon, ...(state.loading ? { color: "#ea5d5d" } : {}) }}
       onClick={() => makeRequest({ dispatch, state, protoInfo })}
     />
   )

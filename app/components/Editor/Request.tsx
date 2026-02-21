@@ -60,7 +60,6 @@ export function Request({onChangeData, commands, data, streamData, active}: Requ
             tabSize={2}
           />
         </Tabs.TabPane>
-
         {streamData.map((data, key) => (
           <Tabs.TabPane tab={`Stream ${key + 1}`} key={`${key}`}>
             <Viewer output={data} />

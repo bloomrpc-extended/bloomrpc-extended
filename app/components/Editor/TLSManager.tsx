@@ -177,7 +177,7 @@ export function TLSManager({ selected, onSelected }: TLSManagerProps) {
     );
 }
 
-async function handleImportRootCert(certs: Certificate[], setCerts: React.Dispatch<Certificate[]>): Promise<Certificate | void> {
+async function handleImportRootCert(certs: Certificate[], setCerts: React.Dispatch<React.SetStateAction<Certificate[]>>): Promise<Certificate | void> {
   try {
     const certificate = await importRootCert();
 
@@ -197,7 +197,7 @@ async function handleImportRootCert(certs: Certificate[], setCerts: React.Dispat
 async function handleImportPrivateKey(
     certificate: Certificate,
     certs: Certificate[],
-    setCerts: React.Dispatch<Certificate[]>
+    setCerts: React.Dispatch<React.SetStateAction<Certificate[]>>
 ): Promise<Certificate | void> {
   try {
     certificate.privateKey = await importPrivateKey();
@@ -215,7 +215,7 @@ async function handleImportPrivateKey(
 async function handleImportCertChain(
     certificate: Certificate,
     certs: Certificate[],
-    setCerts: React.Dispatch<Certificate[]>
+    setCerts: React.Dispatch<React.SetStateAction<Certificate[]>>
 ): Promise<Certificate | void> {
   try {
     certificate.certChain = await importCertChain();
@@ -233,7 +233,7 @@ async function handleImportCertChain(
 function deleteCertificateEntry(
   certificate: Certificate,
   certs: Certificate[],
-  setCerts: React.Dispatch<Certificate[]>
+  setCerts: React.Dispatch<React.SetStateAction<Certificate[]>>
 ) {
   const certIndex = certs.findIndex((cert) => cert.rootCert.filePath === certificate.rootCert.filePath);
 
@@ -247,7 +247,7 @@ function setSslTargetHost(
     value: string,
     certificate: Certificate,
     certs: Certificate[],
-    setCerts: React.Dispatch<Certificate[]>
+    setCerts: React.Dispatch<React.SetStateAction<Certificate[]>>
 ): Certificate {
   const certIndex = certs.findIndex((cert) => cert.rootCert.filePath === certificate.rootCert.filePath);
   certificate.sslTargetHost = value;

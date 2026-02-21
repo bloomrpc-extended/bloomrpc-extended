@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Icon, Input, Table, Tooltip } from "antd";
 import { useState } from "react";
 import { importResolvePath } from "../../behaviour";
@@ -78,8 +77,8 @@ export function PathResolution({ importPaths, onImportsChange }: PathResolutionP
                   ) : (
                       <Tooltip placement="top" title="Add">
                         <Icon
-                            style={{color: '#28d440', fontSize: 18, cursor: "pointer", marginTop: 5}}
                             type="plus"
+                            style={{color: '#28d440', fontSize: 18, cursor: "pointer", marginTop: 5}}
                             onClick={() => {
                               const pathAdded = addImportPath(pathValue, importPaths, onImportsChange);
                               if (pathAdded) {

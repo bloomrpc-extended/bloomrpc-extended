@@ -30,6 +30,8 @@
 - **Tab overflow menu** — Dropdown listing all open tabs with badge count
 - **Close all tabs** — One-click button to close every open tab
 - **Settings modal** — Toggle tab search, grouping, and overflow menu individually; settings persist across restarts
+- **CodeMirror 6 editor** — Replaced legacy ace-builds with modern CodeMirror 6 for reliable syntax highlighting in packaged builds
+- **Minor bug fixes** — Various stability and packaging fixes
 
 ## Installation
 

@@ -1,30 +1,26 @@
 import * as React from 'react';
-import AceEditor, { Command } from 'react-ace';
 import * as Mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 import { Tabs } from 'antd';
 import { Viewer } from './Viewer';
+import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import { json } from '@codemirror/lang-json';
 
 interface RequestProps {
   data: string
   streamData: string[]
   onChangeData: (value: string) => void
-  commands?: Command[]
   active?: boolean
 }
 
-export function Request({onChangeData, commands, data, streamData, active}: RequestProps) {
+export function Request({onChangeData, data, streamData, active}: RequestProps) {
   const editorTabKey = `editorTab`;
 
-  // bind esc for focus on the active editor window
-  const aceEditor = React.useRef<AceEditor>(null)
+  const editorRef = React.useRef<ReactCodeMirrorRef>(null);
   React.useEffect(() => {
     if (active) {
       Mousetrap.bindGlobal('esc', () => {
-        const node = aceEditor.current as any
-        if (node && 'editor' in node) {
-          node.editor.focus()
-        }
+        editorRef.current?.view?.focus();
       })
     }
   })
@@ -37,27 +33,19 @@ export function Request({onChangeData, commands, data, streamData, active}: Requ
         style={{width: "100%"}}
       >
         <Tabs.TabPane tab="Editor" key={editorTabKey}>
-          <AceEditor
-            ref={aceEditor}
-            style={{ background: "#fff" }}
-            width={"100%"}
-            height={"calc(100vh - 185px)"}
-            mode="json"
-            theme="textmate"
-            name="inputs"
-            fontSize={13}
-            cursorStart={2}
-            onChange={onChangeData}
-            commands={commands}
-            showPrintMargin={false}
-            showGutter
-            highlightActiveLine={false}
+          <CodeMirror
+            ref={editorRef}
             value={data}
-            setOptions={{
-              useWorker: true,
-              displayIndentGuides: true
+            height={"calc(100vh - 185px)"}
+            extensions={[json()]}
+            onChange={onChangeData}
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLine: false,
+              foldGutter: true,
+              searchKeymap: true,
             }}
-            tabSize={2}
+            style={{ fontSize: 13 }}
           />
         </Tabs.TabPane>
         {streamData.map((data, key) => (

@@ -1,7 +1,6 @@
-import AceEditor from 'react-ace';
 import { Drawer } from 'antd';
 import { ProtoInfo } from '../../behaviour';
-
+import CodeMirror from '@uiw/react-codemirror';
 
 interface ProtoFileViewerProps {
   protoInfo: ProtoInfo
@@ -21,33 +20,17 @@ export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewer
       visible={visible}
       style={{ transition: 'none' }}
     >
-      <AceEditor
-        style={{ marginTop: "10px", background: "#fff" }}
-        width={"100%"}
-        height={"calc(100vh - 115px)"}
-        mode="protobuf"
-        theme="textmate"
-        name="output"
-        fontSize={13}
-        showPrintMargin={false}
-        wrapEnabled
-
-        showGutter={false}
-        readOnly
-        highlightActiveLine={false}
+      <CodeMirror
         value={protoInfo.service.proto.protoText}
-        onLoad={(editor: any) => {
-          editor.renderer.$cursorLayer.element.style.display = "none";
-          editor.gotoLine(0, 0, true);
+        height={"calc(100vh - 115px)"}
+        readOnly
+        editable={false}
+        basicSetup={{
+          lineNumbers: false,
+          highlightActiveLine: false,
+          foldGutter: false,
         }}
-        setOptions={{
-          useWorker: true,
-          displayIndentGuides: false,
-          showLineNumbers: false,
-          highlightGutterLine: false,
-          fixedWidthGutter: true,
-          tabSize: 1,
-        }}
+        style={{ marginTop: "10px", fontSize: 13, background: "#fff" }}
       />
     </Drawer>
   );

@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import { Viewer } from './Viewer';
 import { EditorResponse } from "./Editor";
-import logoIcon from './../../../resources/blue/128x128.png';
+import logoIcon from './../../../resources/icons/128x128.png';
 
 interface ResponseProps {
   streamResponse: EditorResponse[]

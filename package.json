@@ -45,6 +45,7 @@
       "!node_modules/**/grpc"
     ],
     "dmg": {
+      "artifactName": "BloomRPC-Extended-${version}-${arch}.${ext}",
       "contents": [
         {
           "x": 410,
@@ -59,12 +60,16 @@
         }
       ]
     },
+    "nsis": {
+      "artifactName": "BloomRPC-Extended-Setup-${version}.${ext}"
+    },
     "win": {
       "target": [
         "nsis"
       ]
     },
     "linux": {
+      "artifactName": "BloomRPC-Extended-${version}-${arch}.${ext}",
       "target": [
         "deb",
         "AppImage"

@@ -3,9 +3,6 @@
 </p>
 <h1 align="center">BloomRPC Extended</h1>
 
-<p align="center">
-  <img src="https://img.shields.io/github/release/ahmethakanbesel/bloomrpc-extended.svg" />
-</p>
 <p align="center">A GUI Client for gRPC services</p>
 
 <p align="center">

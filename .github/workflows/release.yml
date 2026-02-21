@@ -101,8 +101,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Casks/bloomrpc-extended.rb
-          git commit -m "Update bloomrpc-extended to ${{ needs.release.outputs.version }}"
-          git push
+          git diff --staged --quiet && echo "No changes to commit" || (git commit -m "Update bloomrpc-extended to ${{ needs.release.outputs.version }}" && git push)
 
   publish-scoop:
     needs: release
@@ -132,5 +131,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add bucket/bloomrpc-extended.json
-          git commit -m "Update bloomrpc-extended to ${{ needs.release.outputs.version }}"
-          git push
+          git diff --staged --quiet && echo "No changes to commit" || (git commit -m "Update bloomrpc-extended to ${{ needs.release.outputs.version }}" && git push)

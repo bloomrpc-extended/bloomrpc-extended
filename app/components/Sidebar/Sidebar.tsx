@@ -5,6 +5,8 @@ import {OnProtoUpload, ProtoFile, ProtoService, importProtos, importProtosFromSe
 import { PathResolution } from "./PathResolution";
 import { getImportPaths } from "../../storage";
 import {UrlResolution} from "./UrlResolution";
+import { SettingsModal } from "../Settings/SettingsModal";
+import { TabUXSettings } from "../../storage/settings";
 
 interface SidebarProps {
   protos: ProtoFile[]
@@ -13,15 +15,18 @@ interface SidebarProps {
   onDeleteAll: () => void
   onReload: () => void
   onMethodDoubleClick: (methodName: string, protoService: ProtoService) => void
+  settings: TabUXSettings
+  onSettingsChange: (settings: TabUXSettings) => void
 }
 
-export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, onReload, onMethodDoubleClick }: SidebarProps) {
+export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, onReload, onMethodDoubleClick, settings, onSettingsChange }: SidebarProps) {
 
   const [importPaths, setImportPaths] = useState<string[]>([""]);
   const [importPathVisible, setImportPathsVisible] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
   const [filterMatch, setFilterMatch] = useState<string|null>(null);
   const [importReflectionVisible, setImportReflectionVisible] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
 
   useEffect(() => {
     setImportPaths(getImportPaths());
@@ -125,6 +130,23 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               <Icon type="filter" style={{cursor: "pointer", color: "#1d93e6"}}/>
             </Button>
           </Tooltip>
+
+          <Tooltip title="Settings" placement="bottomLeft" align={{offset: [-8, 0]}}>
+            <Button
+              type="ghost"
+              style={{height: 24, paddingRight: 5, paddingLeft: 5, marginLeft: 5}}
+              onClick={() => setSettingsVisible(true)}
+            >
+              <Icon type="setting" style={{cursor: "pointer", color: "#1d93e6"}}/>
+            </Button>
+          </Tooltip>
+
+          <SettingsModal
+            visible={settingsVisible}
+            onClose={() => setSettingsVisible(false)}
+            settings={settings}
+            onSettingsChange={onSettingsChange}
+          />
 
           <Modal
               title={(

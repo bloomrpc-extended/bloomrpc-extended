@@ -5,7 +5,8 @@
   "description": "GRPC GUI client",
   "main": "./out/main/index.js",
   "author": {
-    "name": "Ahmet Hakan Besel"
+    "name": "Ahmet Hakan Besel",
+    "email": "ahmethakanbesel@users.noreply.github.com"
   },
   "license": "LGPL3"
 }

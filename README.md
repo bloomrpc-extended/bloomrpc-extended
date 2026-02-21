@@ -31,13 +31,37 @@
 - **Close all tabs** — One-click button to close every open tab
 - **Settings modal** — Toggle tab search, grouping, and overflow menu individually; settings persist across restarts
 
-## Getting Started
+## Installation
 
-### Prerequisites
+### Homebrew (macOS)
+
+```bash
+brew tap ahmethakanbesel/bloomrpc-extended
+brew install --cask bloomrpc-extended
+```
+
+### Scoop (Windows)
+
+```bash
+scoop bucket add bloomrpc-extended https://github.com/ahmethakanbesel/scoop-bloomrpc-extended
+scoop install bloomrpc-extended
+```
+
+### GitHub Releases
+
+Download the latest release for your platform from the [Releases](https://github.com/ahmethakanbesel/bloomrpc-extended/releases) page:
+
+- **macOS** — `.dmg`
+- **Windows** — `.exe` installer
+- **Linux** — `.AppImage` or `.deb`
+
+### Build from Source
+
+#### Prerequisites
 
 - [Bun](https://bun.sh/) (v1.0+)
 
-### Development
+#### Development
 
 ```bash
 # Install dependencies
@@ -47,14 +71,14 @@ bun install
 bun run dev
 ```
 
-### Build
+#### Package
 
 ```bash
-# Build for production
-bun run build
-
-# Package the app
+# Package for current platform
 bun run package
+
+# Package for all platforms
+bun run package-all
 ```
 
 ## Credits

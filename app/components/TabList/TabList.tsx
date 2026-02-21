@@ -11,7 +11,6 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import {
   SortableContext,
   horizontalListSortingStrategy,
-  arrayMove,
 } from '@dnd-kit/sortable';
 import { Editor, EditorEnvironment, EditorRequest } from '../Editor';
 import { ProtoInfo, ProtoService } from '../../behaviour';
@@ -52,7 +51,7 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onEdit
   useEffect(() => {
     Mousetrap.bindGlobal(['command+w', 'ctrl+w'], () => {
       if (tabActiveKey) {
-        onDelete && onDelete(tabActiveKey);
+        onDelete?.(tabActiveKey);
       }
       return false;
     });
@@ -92,7 +91,7 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onEdit
           className={"draggable-tabs"}
           onEdit={(targetKey, action) => {
             if (action === "remove") {
-              onDelete && onDelete(targetKey);
+              onDelete?.(targetKey);
             }
           }}
           onChange={onChange}
@@ -143,7 +142,7 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onEdit
                   initialRequest={tab.initialRequest}
                   onEnvironmentListChange={onEnvironmentChange}
                   onRequestChange={(editorRequest: EditorRequest) => {
-                    onEditorRequestChange && onEditorRequestChange({
+                    onEditorRequestChange?.({
                       id: tab.tabKey,
                       ...editorRequest
                     })

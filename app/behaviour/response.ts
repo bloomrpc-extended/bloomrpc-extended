@@ -5,8 +5,7 @@ import { ProtoInfo } from "./protoInfo";
 import { EditorState } from "../components/Editor";
 
 
-export function exportResponseToJSONFile(protoInfo: ProtoInfo, editorState: EditorState) {
-  return new Promise(async (resolve, reject) => {
+export async function exportResponseToJSONFile(protoInfo: ProtoInfo, editorState: EditorState) {
     const openDialogResult = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       properties: ['openDirectory'],
       filters: []
@@ -15,7 +14,7 @@ export function exportResponseToJSONFile(protoInfo: ProtoInfo, editorState: Edit
     const filePaths = openDialogResult.filePaths;
 
     if (!filePaths) {
-      return reject("No folder selected");
+      throw new Error("No folder selected");
     }
 
     const timestamp = new Date().getTime();
@@ -31,6 +30,5 @@ export function exportResponseToJSONFile(protoInfo: ProtoInfo, editorState: Edit
 
     fs.writeFileSync(exportPath, responseData);
 
-    resolve(exportPath);
-  });
+    return exportPath;
 }

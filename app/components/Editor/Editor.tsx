@@ -202,7 +202,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
 
                 if (!environment) {
                   dispatch(setEnvironment(""));
-                  onRequestChange && onRequestChange({
+                  onRequestChange?.({
                     ...state,
                     environment: "",
                   });
@@ -215,7 +215,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
                 dispatch(setTSLCertificate(environment.tlsCertificate));
                 dispatch(setInteractive(environment.interactive));
 
-                onRequestChange && onRequestChange({
+                onRequestChange?.({
                   ...state,
                   environment: environment.name,
                   url: environment.url,
@@ -227,11 +227,11 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
               onEnvironmentDelete={(environmentName) => {
                 deleteEnvironment(environmentName);
                 dispatch(setEnvironment(""));
-                onRequestChange && onRequestChange({
+                onRequestChange?.({
                   ...state,
                   environment: "",
                 });
-                onEnvironmentListChange && onEnvironmentListChange(
+                onEnvironmentListChange?.(
                     getEnvironments()
                 );
               }}
@@ -245,19 +245,19 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
                 });
 
                 dispatch(setEnvironment(environmentName));
-                onRequestChange && onRequestChange({
+                onRequestChange?.({
                   ...state,
                   environment: environmentName,
                 });
 
-                onEnvironmentListChange && onEnvironmentListChange(
+                onEnvironmentListChange?.(
                     getEnvironments()
                 );
               }}
               onChangeUrl={(e) => {
                 dispatch(setUrl(e.target.value));
                 storeUrl(e.target.value);
-                onRequestChange && onRequestChange({
+                onRequestChange?.({
                   ...state,
                   url: e.target.value,
                 });
@@ -275,7 +275,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
               await exportResponseToJSONFile(protoInfo, state)
             }}
             onInteractiveChange={(checked) => {
-              onRequestChange && onRequestChange({
+              onRequestChange?.({
                 ...state,
                 interactive: checked,
               });
@@ -283,7 +283,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
             tlsSelected={state.tlsCertificate}
             onTLSSelected={(certificate) => {
               dispatch(setTSLCertificate(certificate));
-              onRequestChange && onRequestChange({
+              onRequestChange?.({
                 ...state,
                 tlsCertificate: certificate,
               });
@@ -307,7 +307,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
             active={active}
             onChangeData={(value) => {
               dispatch(setData(value));
-              onRequestChange && onRequestChange({
+              onRequestChange?.({
                 ...state,
                 data: value,
               });
@@ -341,7 +341,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
         }}
         onMetadataChange={(value) => {
           dispatch(setMetadata(value));
-          onRequestChange && onRequestChange({
+          onRequestChange?.({
             ...state,
             metadata: value,
           });
@@ -364,7 +364,7 @@ const styles = {
   tabContainer: {
     width: "100%",
     height: "100%",
-    position: "relative" as "relative",
+    position: "relative" as const,
   },
   editorContainer: {
     display: "flex",
@@ -383,7 +383,7 @@ const styles = {
     overflow: "auto"
   },
   playIconContainer: {
-    position: "absolute" as "absolute",
+    position: "absolute" as const,
     zIndex: 10,
     right: "-30px",
     marginLeft: "-25px",

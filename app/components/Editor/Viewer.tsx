@@ -101,14 +101,14 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
 const styles = {
   responseContainer: {
     background: "white",
-    position: "relative" as "relative",
+    position: "relative" as const,
   },
   responseTime: {
-    userSelect: "none" as "none",
+    userSelect: "none" as const,
     fontSize: 11,
     padding: "3px 7px",
     background: '#f3f6f7',
-    position: "absolute" as "absolute",
+    position: "absolute" as const,
     top: "5px",
     right: "0px",
     zIndex: 30,

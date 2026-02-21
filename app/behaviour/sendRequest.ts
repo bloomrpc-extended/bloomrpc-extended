@@ -64,7 +64,7 @@ export class GRPCRequest extends EventEmitter {
       const reqInfo = this.parseRequestInfo(this.inputs, this.metadata);
       inputs = reqInfo.inputs;
       metadata = reqInfo.metadata;
-    } catch(e) {
+    } catch {
       return this;
     }
 
@@ -137,7 +137,7 @@ export class GRPCRequest extends EventEmitter {
       try {
         const reqInfo = this.parseRequestInfo(data);
         inputs = reqInfo.inputs;
-      } catch(e) {
+      } catch {
         return this;
       }
       this._call.write(inputs);
@@ -366,7 +366,7 @@ export class GRPCWebRequest extends EventEmitter {
       const reqInfo = this.parseRequestInfo(this.inputs, this.metadata);
       inputs = reqInfo.inputs;
       metadata = reqInfo.metadata;
-    } catch(e) {
+    } catch {
       return this;
     }
 

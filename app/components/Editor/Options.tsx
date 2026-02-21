@@ -96,7 +96,7 @@ export function Options({ dispatch, grpcWebChecked, interactiveChecked, onIntera
             unCheckedChildren="Manual &nbsp; &nbsp; &nbsp;"
             onChange={(checked) => {
               dispatch(setInteractive(checked));
-              onInteractiveChange && onInteractiveChange(checked);
+              onInteractiveChange?.(checked);
             }}
           />
         </div>

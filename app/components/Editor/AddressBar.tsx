@@ -27,21 +27,21 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
   function handleSave() {
     if (newEnvironmentName) {
       setCurrentEnvironmentName(newEnvironmentName);
-      onEnvironmentSave && onEnvironmentSave(newEnvironmentName);
+      onEnvironmentSave?.(newEnvironmentName);
     } else {
-      onEnvironmentSave && onEnvironmentSave(currentEnvironmentName);
+      onEnvironmentSave?.(currentEnvironmentName);
     }
     setSaveModalVisible(false);
     setNewEnvironmentName("");
   }
 
   function handleUpdate() {
-    onEnvironmentSave && onEnvironmentSave(currentEnvironmentName);
+    onEnvironmentSave?.(currentEnvironmentName);
     setUpdateModalVisible(false);
   }
 
   function handleDelete() {
-    onEnvironmentDelete && onEnvironmentDelete(currentEnvironmentName);
+    onEnvironmentDelete?.(currentEnvironmentName);
     setDeleteModalVisible(false);
     setCurrentEnvironmentName("");
   }
@@ -75,7 +75,7 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
                 setCurrentEnvironmentName(value);
 
                 const selectedEnv = (environments || []).find(env => env.name === value);
-                onChangeEnvironment && onChangeEnvironment(selectedEnv);
+                onChangeEnvironment?.(selectedEnv);
               }}
           >
             <Select.Option value={""}>None</Select.Option>

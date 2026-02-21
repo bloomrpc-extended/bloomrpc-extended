@@ -135,12 +135,12 @@ export async function loadProtoFromReflection(host: string, onProtoUploaded?: On
       return list;
     }, []);
 
-    onProtoUploaded && onProtoUploaded(protoList, undefined);
+    onProtoUploaded?.(protoList, undefined);
     return protoList;
 
   } catch (e) {
     console.error(e);
-    onProtoUploaded && onProtoUploaded([], e);
+    onProtoUploaded?.([], e);
 
     if (!onProtoUploaded) {
       throw e;
@@ -179,12 +179,12 @@ export async function loadProtosFromFile(filePaths: string[], importPaths?: stri
 
       return list;
     }, []);
-    onProtoUploaded && onProtoUploaded(protoList, undefined);
+    onProtoUploaded?.(protoList, undefined);
     return protoList;
 
   } catch (e) {
     console.error(e);
-    onProtoUploaded && onProtoUploaded([], e);
+    onProtoUploaded?.([], e);
 
     if (!onProtoUploaded) {
       throw e;
@@ -215,8 +215,7 @@ function parseServices(proto: Proto) {
   return services;
 }
 
-export function importResolvePath(): Promise<string> {
-  return new Promise(async (resolve, reject) => {
+export async function importResolvePath(): Promise<string> {
     const openDialogResult = await remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
       properties: ['openDirectory'],
       filters: []
@@ -225,8 +224,7 @@ export function importResolvePath(): Promise<string> {
     const filePaths = openDialogResult.filePaths;
 
     if (!filePaths) {
-      return reject("No folder selected");
+      throw new Error("No folder selected");
     }
-    resolve(filePaths[0]);
-  });
+    return filePaths[0];
 }

@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { useEffect, useState } from "react";
-import {Menu, Button, Icon, Dropdown, Modal, Tooltip, Tree, Input} from 'antd';
+import { Button, Dropdown, Icon, Menu, Modal, Tooltip, Tree, Input } from 'antd';
 import { Badge } from '../Badge/Badge';
 import {OnProtoUpload, ProtoFile, ProtoService, importProtos, importProtosFromServerReflection} from '../../behaviour';
 import { PathResolution } from "./PathResolution";
@@ -79,22 +78,16 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
             onClick={() => {
               importProtos(onProtoUpload, importPaths)
             }}
-            overlay={
+            overlay={(
               <Menu>
-                <Menu.Item key="1" onClick={() => {
-                  importProtos(onProtoUpload, importPaths)
-                }}>
-                  <Icon type="file" />
-                  Import from file
+                <Menu.Item key="1" onClick={() => importProtos(onProtoUpload, importPaths)}>
+                  <Icon type="file" /> Import from file
                 </Menu.Item>
-                <Menu.Item key="2" onClick={() => {
-                  setImportReflectionVisible(true)
-                }}>
-                  <Icon type="eye" />
-                  Import from server reflection
+                <Menu.Item key="2" onClick={() => setImportReflectionVisible(true)}>
+                  <Icon type="eye" /> Import from server reflection
                 </Menu.Item>
               </Menu>
-            }
+            )}
           >
             <Icon type="plus" />
           </Dropdown.Button>
@@ -143,7 +136,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               visible={importPathVisible}
               onCancel={() => setImportPathsVisible(false)}
               onOk={() => setImportPathsVisible(false)}
-              bodyStyle={{padding: 0}}
+              bodyStyle={{ padding: 0 }}
               width={750}
               footer={[
                 <Button key="back" onClick={() => setImportPathsVisible(false)}>Close</Button>
@@ -203,7 +196,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
           showIcon
           defaultExpandAll
           onSelect={async (selectedKeys) => {
-            const selected = selectedKeys.pop();
+            const selected = selectedKeys.pop() as string | undefined;
             const protoDefinitions = processSelectedKey(selected);
 
             if (!protoDefinitions){
@@ -212,8 +205,8 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
 
             onMethodSelected(protoDefinitions.methodName, protoDefinitions.protodef.services[protoDefinitions.serviceName]);
           }}
-          onDoubleClick={async (event, treeNode)=>{
-            const selected = treeNode.props.eventKey;
+          onDoubleClick={(_event, treeNode) => {
+            const selected = treeNode.props.eventKey as string;
             const protoDefinitions = processSelectedKey(selected);
 
             if (!protoDefinitions){
@@ -236,7 +229,6 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                   title={service}
                   key={`${proto.fileName}-${service}`}
                 >
-
                   {proto.services[service].methodsName
                     .filter((name) => {
                       if (filterMatch === null) return true;
@@ -247,9 +239,9 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                         icon={<Badge type="method"> M </Badge>}
                         title={method}
                         key={`${proto.proto.filePath}||method:${method}||service:${service}`}
-                      >
-                    </Tree.TreeNode>
-                  ))}
+                        isLeaf
+                      />
+                    ))}
                 </Tree.TreeNode>
               ))}
             </Tree.TreeNode>

@@ -1,9 +1,8 @@
-import * as React from 'react';
-
+import type { ReactNode } from 'react';
 
 interface BadgeProps {
   type: "protoFile" | "service" | "method"
-  children: Node | string | Element
+  children: ReactNode
 }
 
 export function Badge({ type, children }: BadgeProps) {

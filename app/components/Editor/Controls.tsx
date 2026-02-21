@@ -35,7 +35,7 @@ export function Controls({ dispatch, state, protoInfo, active }: ControlsStatePr
                   state.call.write(state.data);
                 }
               }}>
-                <Icon type="double-right"/>
+                <Icon type="double-right" />
               </div>
             </Tooltip>
 
@@ -48,7 +48,7 @@ export function Controls({ dispatch, state, protoInfo, active }: ControlsStatePr
                     dispatch(setStreamCommitted(true));
                   }
                 }}>
-                <Icon type="check"/>
+                <Icon type="check" />
               </div>
             </Tooltip>
           </div>

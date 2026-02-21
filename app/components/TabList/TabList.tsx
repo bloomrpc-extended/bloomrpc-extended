@@ -1,9 +1,21 @@
-import * as React from 'react';
 import { useEffect } from 'react';
 import { Tabs } from 'antd';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
 import { Editor, EditorEnvironment, EditorRequest } from '../Editor';
 import { ProtoInfo, ProtoService } from '../../behaviour';
-import { DraggableItem, DraggableTabs } from "./DraggableTabList";
+import { DraggableItem } from "./DraggableTabList";
 import * as Mousetrap from 'mousetrap';
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
@@ -34,8 +46,8 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onEdit
     tabs.filter(tab => tab.tabKey === activeKey);
 
   const tabActiveKey = tabsWithMatchingKey.length === 0
-    ? [...tabs.map(tab => tab.tabKey)].pop()
-    : [...tabsWithMatchingKey.map(tab => tab.tabKey)].pop();
+    ? tabs.map(tab => tab.tabKey).pop()
+    : tabsWithMatchingKey.map(tab => tab.tabKey).pop();
 
   useEffect(() => {
     Mousetrap.bindGlobal(['command+w', 'ctrl+w'], () => {
@@ -50,85 +62,99 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onEdit
     }
   });
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = tabs.findIndex(tab => tab.tabKey === active.id);
+      const newIndex = tabs.findIndex(tab => tab.tabKey === over.id);
+      onDragEnd({ oldIndex, newIndex });
+    }
+  }
+
+  const tabKeys = tabs.map(tab => tab.tabKey);
+
   return (
-    <Tabs
-      className={"draggable-tabs"}
-      onEdit={(targetKey, action) => {
-        if (action === "remove") {
-          onDelete && onDelete(targetKey);
-        }
-      }}
-      onChange={onChange}
-      tabBarStyle={styles.tabBarStyle}
-      style={styles.tabList}
-      activeKey={tabActiveKey || "0"}
-      hideAdd
-      type="editable-card"
-      renderTabBar={(props, DefaultTabBar: any) => {
-        return (
-            <DraggableTabs
-                onSortEnd={onDragEnd}
-                lockAxis={"x"}
-                axis={"x"}
-                pressDelay={120}
-                helperClass={"draggable draggable-tab"}
-            >
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext items={tabKeys} strategy={horizontalListSortingStrategy}>
+        <Tabs
+          className={"draggable-tabs"}
+          onEdit={(targetKey, action) => {
+            if (action === "remove") {
+              onDelete && onDelete(targetKey);
+            }
+          }}
+          onChange={onChange}
+          tabBarStyle={styles.tabBarStyle}
+          style={styles.tabList}
+          activeKey={tabActiveKey || "0"}
+          hideAdd
+          type="editable-card"
+          renderTabBar={(props, DefaultTabBar) => {
+            return (
               <DefaultTabBar {...props}>
                 {(node: any) => {
-                  const nodeIndex = tabs.findIndex(tab => tab.tabKey === node.key);
                   const nodeTab = tabs.find(tab => tab.tabKey === node.key);
                   return (
-                      <DraggableItem
-                          active={nodeTab && nodeTab.tabKey === activeKey}
-                          index={nodeIndex}
-                          key={node.key}
-                      >
-                        {node}
-                      </DraggableItem>
+                    <DraggableItem
+                      active={nodeTab && nodeTab.tabKey === activeKey}
+                      id={node.key}
+                      key={node.key}
+                    >
+                      {node}
+                    </DraggableItem>
                   )
                 }}
               </DefaultTabBar>
-            </DraggableTabs>
-        )
-      }}
-    >
-      {tabs.length === 0 ? (
-        <Tabs.TabPane
-          tab={"New Tab"}
-          key={"0"}
-          closable={false}
-          style={{ height: "100%" }}
+            )
+          }}
         >
-          <Editor
-            active={true}
-            environmentList={environmentList}
-            onEnvironmentListChange={onEnvironmentChange}
-          />
-        </Tabs.TabPane>
-      ) : tabs.map((tab) => (
-          <Tabs.TabPane
-            tab={`${tab.service.serviceName}.${tab.methodName}`}
-            key={tab.tabKey}
-            closable={true}
-            style={{ height: "100%" }}
-          >
-            <Editor
-              active={tab.tabKey === activeKey}
-              environmentList={environmentList}
-              protoInfo={new ProtoInfo(tab.service, tab.methodName)}
-              key={tab.tabKey}
-              initialRequest={tab.initialRequest}
-              onEnvironmentListChange={onEnvironmentChange}
-              onRequestChange={(editorRequest: EditorRequest) => {
-                onEditorRequestChange && onEditorRequestChange({
-                  id: tab.tabKey,
-                  ...editorRequest
-                })
-              }}
-            />
-          </Tabs.TabPane>
-      ))}
-    </Tabs>
+          {tabs.length === 0 ? (
+            <Tabs.TabPane tab="New Tab" key="0" closable={false}>
+              <Editor
+                active={true}
+                environmentList={environmentList}
+                onEnvironmentListChange={onEnvironmentChange}
+              />
+            </Tabs.TabPane>
+          ) : (
+            tabs.map((tab) => (
+              <Tabs.TabPane
+                tab={`${tab.service.serviceName}.${tab.methodName}`}
+                key={tab.tabKey}
+                closable={true}
+              >
+                <Editor
+                  active={tab.tabKey === activeKey}
+                  environmentList={environmentList}
+                  protoInfo={new ProtoInfo(tab.service, tab.methodName)}
+                  key={tab.tabKey}
+                  initialRequest={tab.initialRequest}
+                  onEnvironmentListChange={onEnvironmentChange}
+                  onRequestChange={(editorRequest: EditorRequest) => {
+                    onEditorRequestChange && onEditorRequestChange({
+                      id: tab.tabKey,
+                      ...editorRequest
+                    })
+                  }}
+                />
+              </Tabs.TabPane>
+            ))
+          )}
+        </Tabs>
+      </SortableContext>
+    </DndContext>
   );
 }
 

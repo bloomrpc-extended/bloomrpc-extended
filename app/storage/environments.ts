@@ -1,5 +1,4 @@
-// @ts-ignore
-import * as Store from 'electron-store';
+import Store from 'electron-store';
 import { EditorEnvironment } from "../components/Editor";
 
 const EnvironmentStore = new Store({

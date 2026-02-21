@@ -23,7 +23,6 @@ coverage
 build/Release
 
 # Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 app/node_modules
 
@@ -40,7 +39,12 @@ app/style.css
 app/style.css.map
 app/dist/
 dist
+out/
+app/out/
 main.js
 main.js.map
 
 .idea
+
+# Bun
+bun.lock

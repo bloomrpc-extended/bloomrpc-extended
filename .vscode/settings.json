@@ -1,0 +1,70 @@
+{
+  // Formatter — use oxc (oxfmt) for TS/JS, built-in for the rest
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.formatOnSave": true
+  },
+  "[scss]": {
+    "editor.formatOnSave": true
+  },
+
+  // Linting — oxc handles linting; disable built-in TS validation overlap
+  "oxc.enable": true,
+  "oxc.lint.run": "onType",
+  "typescript.validate.enable": true,
+
+  // Disable legacy linters / formatters so they don't conflict
+  "eslint.enable": false,
+  "prettier.enable": false,
+  "tslint.enable": false,
+
+  // TypeScript SDK — use the workspace version installed by bun
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // Search / file-watcher exclusions
+  "files.exclude": {
+    "out": true,
+    "app/out": true,
+    "release": true,
+    "dist": true,
+    "app/dist": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/app/node_modules": true,
+    "out": true,
+    "app/out": true,
+    "release": true,
+    "dist": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/app/node_modules/**": true,
+    "out/**": true,
+    "app/out/**": true,
+    "release/**": true
+  },
+
+  // Editor
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
+}

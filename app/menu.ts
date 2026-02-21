@@ -1,9 +1,10 @@
-const { app, Menu, shell } = require('electron');
-const openAboutWindow = require('./about/open-about-window');
+import { app, Menu, shell, BrowserWindow, MenuItemConstructorOptions } from 'electron';
+import openAboutWindow from './about/open-about-window';
 
-module.exports = class MenuBuilder {
+export default class MenuBuilder {
+  mainWindow: BrowserWindow;
 
-  constructor(mainWindow) {
+  constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow;
   }
 
@@ -27,28 +28,28 @@ module.exports = class MenuBuilder {
   }
 
   setupDevelopmentEnvironment() {
-    this.mainWindow.openDevTools();
-    this.mainWindow.webContents.on('context-menu', (e, props) => {
+    this.mainWindow.webContents.openDevTools();
+    this.mainWindow.webContents.on('context-menu', (_e, props) => {
       const { x, y } = props;
 
       Menu.buildFromTemplate([
         {
           label: 'Inspect element',
           click: () => {
-            this.mainWindow.inspectElement(x, y);
-          }
-        }
-      ]).popup(this.mainWindow);
+            this.mainWindow.webContents.inspectElement(x, y);
+          },
+        },
+      ]).popup({ window: this.mainWindow });
     });
   }
 
-  buildDarwinTemplate() {
-    const subMenuAbout = {
+  buildDarwinTemplate(): MenuItemConstructorOptions[] {
+    const subMenuAbout: MenuItemConstructorOptions = {
       label: 'BloomRPC',
       submenu: [
         {
           label: 'About BloomRPC',
-          selector: 'orderFrontStandardAboutPanel:'
+          role: 'about',
         },
         { type: 'separator' },
         { label: 'Services', submenu: [] },
@@ -56,48 +57,48 @@ module.exports = class MenuBuilder {
         {
           label: 'Hide BloomRPC',
           accelerator: 'Command+H',
-          selector: 'hide:'
+          role: 'hide',
         },
         {
           label: 'Hide Others',
           accelerator: 'Command+Shift+H',
-          selector: 'hideOtherApplications:'
+          role: 'hideOthers',
         },
-        { label: 'Show All', selector: 'unhideAllApplications:' },
+        { label: 'Show All', role: 'unhide' },
         { type: 'separator' },
         {
           label: 'Quit',
           accelerator: 'Command+Q',
           click: () => {
             app.quit();
-          }
-        }
-      ]
+          },
+        },
+      ],
     };
-    const subMenuEdit = {
+    const subMenuEdit: MenuItemConstructorOptions = {
       label: 'Edit',
       submenu: [
-        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
+        { label: 'Undo', accelerator: 'Command+Z', role: 'undo' },
+        { label: 'Redo', accelerator: 'Shift+Command+Z', role: 'redo' },
         { type: 'separator' },
-        { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
+        { label: 'Cut', accelerator: 'Command+X', role: 'cut' },
+        { label: 'Copy', accelerator: 'Command+C', role: 'copy' },
+        { label: 'Paste', accelerator: 'Command+V', role: 'paste' },
         {
           label: 'Select All',
           accelerator: 'Command+A',
-          selector: 'selectAll:'
+          role: 'selectAll',
         },
         {
           label: 'Clear Storage',
           accelerator: 'Ctrl+Command+D',
           click() {
             require('./storage').clearAll();
-          }
-        }
-      ]
+          },
+        },
+      ],
     };
-    const subMenuViewDev = {
+    const subMenuViewDev: MenuItemConstructorOptions = {
       label: 'View',
       submenu: [
         {
@@ -105,25 +106,25 @@ module.exports = class MenuBuilder {
           accelerator: 'Command+R',
           click: () => {
             this.mainWindow.webContents.reload();
-          }
+          },
         },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
-          }
+          },
         },
         {
           label: 'Toggle Developer Tools',
           accelerator: 'Alt+Command+I',
           click: () => {
-            this.mainWindow.toggleDevTools();
-          }
-        }
-      ]
+            this.mainWindow.webContents.toggleDevTools();
+          },
+        },
+      ],
     };
-    const subMenuViewProd = {
+    const subMenuViewProd: MenuItemConstructorOptions = {
       label: 'View',
       submenu: [
         {
@@ -131,38 +132,38 @@ module.exports = class MenuBuilder {
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
-          }
+          },
         },
         {
           label: 'Toggle Developer Tools',
           accelerator: 'Alt+Command+I',
           click: () => {
-            this.mainWindow.toggleDevTools();
-          }
-        }
-      ]
+            this.mainWindow.webContents.toggleDevTools();
+          },
+        },
+      ],
     };
-    const subMenuWindow = {
+    const subMenuWindow: MenuItemConstructorOptions = {
       label: 'Window',
       submenu: [
         {
           label: 'Minimize',
           accelerator: 'Command+M',
-          selector: 'performMiniaturize:'
+          role: 'minimize',
         },
-        { label: 'Close', accelerator: 'Command+W', selector: 'performClose:' },
+        { label: 'Close', accelerator: 'Command+W', role: 'close' },
         { type: 'separator' },
-        { label: 'Bring All to Front', selector: 'arrangeInFront:' }
-      ]
+        { label: 'Bring All to Front', role: 'front' },
+      ],
     };
-    const subMenuHelp = {
+    const subMenuHelp: MenuItemConstructorOptions = {
       label: 'Help',
       submenu: [
         {
           label: 'Learn More',
           click() {
             shell.openExternal('https://github.com/uw-labs/bloomrpc');
-          }
+          },
         },
         {
           label: 'Documentation',
@@ -170,21 +171,21 @@ module.exports = class MenuBuilder {
             shell.openExternal(
               'https://github.com/uw-labs/bloomrpc/blob/master/README.md'
             );
-          }
+          },
         },
         {
           label: 'Community Discussions',
           click() {
             shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
-          }
+          },
         },
         {
           label: 'Search Issues',
           click() {
             shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
-          }
-        }
-      ]
+          },
+        },
+      ],
     };
 
     const subMenuView =
@@ -193,21 +194,21 @@ module.exports = class MenuBuilder {
     return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
   }
 
-  buildDefaultTemplate() {
-    const templateDefault = [
+  buildDefaultTemplate(): MenuItemConstructorOptions[] {
+    const templateDefault: MenuItemConstructorOptions[] = [
       {
         label: '&File',
         submenu: [
           {
             label: '&Open',
-            accelerator: 'Ctrl+O'
+            accelerator: 'Ctrl+O',
           },
           {
             label: '&Quit',
             accelerator: 'Ctrl+Q',
             click: app.quit,
-          }
-        ]
+          },
+        ],
       },
       {
         label: '&View',
@@ -219,7 +220,7 @@ module.exports = class MenuBuilder {
                   accelerator: 'Ctrl+R',
                   click: () => {
                     this.mainWindow.webContents.reload();
-                  }
+                  },
                 },
                 {
                   label: 'Toggle &Full Screen',
@@ -228,15 +229,15 @@ module.exports = class MenuBuilder {
                     this.mainWindow.setFullScreen(
                       !this.mainWindow.isFullScreen()
                     );
-                  }
+                  },
                 },
                 {
                   label: 'Toggle &Developer Tools',
                   accelerator: 'Alt+Ctrl+I',
                   click: () => {
-                    this.mainWindow.toggleDevTools();
-                  }
-                }
+                    this.mainWindow.webContents.toggleDevTools();
+                  },
+                },
               ]
             : [
                 {
@@ -246,16 +247,16 @@ module.exports = class MenuBuilder {
                     this.mainWindow.setFullScreen(
                       !this.mainWindow.isFullScreen()
                     );
-                  }
+                  },
                 },
                 {
                   label: 'Toggle &Developer Tools',
                   accelerator: 'Alt+Ctrl+I',
                   click: () => {
-                    this.mainWindow.toggleDevTools();
-                  }
-                }
-              ]
+                    this.mainWindow.webContents.toggleDevTools();
+                  },
+                },
+              ],
       },
       {
         label: 'Help',
@@ -264,7 +265,7 @@ module.exports = class MenuBuilder {
             label: 'Learn More',
             click() {
               shell.openExternal('https://github.com/uw-labs/bloomrpc');
-            }
+            },
           },
           {
             label: 'Documentation',
@@ -272,28 +273,28 @@ module.exports = class MenuBuilder {
               shell.openExternal(
                 'https://github.com/uw-labs/bloomrpc/blob/master/README.md'
               );
-            }
+            },
           },
           {
             label: 'Community Discussions',
             click() {
               shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
-            }
+            },
           },
           {
             label: 'Search Issues',
             click() {
               shell.openExternal('https://github.com/uw-labs/bloomrpc/issues');
-            }
+            },
           },
           {
             label: 'About BloomRPC',
             click: () => {
               openAboutWindow(this.mainWindow);
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ];
 
     return templateDefault;

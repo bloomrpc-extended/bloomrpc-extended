@@ -1,24 +1,7 @@
-import * as React from 'react';
-import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+import { createRoot } from 'react-dom/client';
 import './app.global.scss';
-import App from './App';
+import { BloomRPC } from './components/BloomRPC';
 
-render(
-  <AppContainer>
-    <App/>
-  </AppContainer>,
-  document.getElementById('root')
-);
-
-if ((module as any).hot) {
-  (module as any).hot.accept('./App', () => {
-    const NextApp = require('./App').default;
-    render(
-      <AppContainer>
-        <NextApp />
-      </AppContainer>,
-      document.getElementById('root')
-    );
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  createRoot(document.getElementById('root')!).render(<BloomRPC />);
+});

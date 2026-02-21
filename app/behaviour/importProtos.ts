@@ -1,17 +1,30 @@
-import {remote} from 'electron';
+import * as remote from '@electron/remote';
 import {fromFileName, mockRequestMethods, Proto, walkServices} from 'bloomrpc-mock';
 import * as path from 'path';
 import {ProtoFile, ProtoService} from './protobuf';
 import {Service} from 'protobufjs';
+import * as protobuf from 'protobufjs';
 import {Client} from 'grpc-reflection-js';
-import {credentials} from '@grpc/grpc-js';
-import * as grpc from 'grpc';
+import {credentials, loadPackageDefinition} from '@grpc/grpc-js';
+import {fromJSON} from '@grpc/proto-loader';
 import isURL from 'validator/lib/isURL';
 
 const commonProtosPath = [
-  // @ts-ignore
-  path.join(__static),
+  process.env.NODE_ENV === 'development'
+    ? path.join(process.cwd(), 'static')
+    : path.join(process.resourcesPath!, 'static'),
 ];
+
+function loadObjectFromRoot(root: protobuf.Root) {
+  const pd = fromJSON(root.toJSON(), {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true,
+  });
+  return loadPackageDefinition(pd);
+}
 
 export type OnProtoUpload = (protoFiles: ProtoFile[], err?: Error) => void
 
@@ -52,18 +65,25 @@ export async function importProtosFromServerReflection(onProtoUploaded: OnProtoU
  * @param onProtoUploaded
  */
 export async function loadProtos(protoPaths: string[], importPaths?: string[], onProtoUploaded?: OnProtoUpload): Promise<ProtoFile[]> {
-  let validateOptions = {
-    require_tld: false,
-    require_protocol: false,
-    require_host: false,
-    require_valid_protocol: false,
+  function isReflectionUrl(protoPath: string): boolean {
+    // File paths: absolute paths or paths ending in .proto are never reflection URLs
+    if (protoPath.startsWith('/') || protoPath.startsWith('\\') || /^[A-Za-z]:/.test(protoPath) || protoPath.endsWith('.proto')) {
+      return false;
+    }
+    return isURL(protoPath, {
+      require_tld: false,
+      require_protocol: false,
+      require_host: false,
+      require_valid_protocol: false,
+    });
   }
+
   const protoUrls = protoPaths.filter((protoPath) => {
-    return isURL(protoPath, validateOptions);
+    return isReflectionUrl(protoPath);
   })
 
   const protoFiles = protoPaths.filter((protoPath) => {
-    return !isURL(protoPath, validateOptions);
+    return !isReflectionUrl(protoPath);
   })
 
   const protoFileFromFiles = await loadProtosFromFile(protoFiles, importPaths, onProtoUploaded);
@@ -96,7 +116,7 @@ export async function loadProtoFromReflection(host: string, onProtoUploaded?: On
         fileName: root.files[root.files.length - 1],
         filePath: host,
         protoText: "proto text not supported in gRPC reflection",
-        ast: grpc.loadObject(root),
+        ast: loadObjectFromRoot(root),
         root: root
       }
     });

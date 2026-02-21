@@ -1,13 +1,13 @@
-const { ipcRenderer, remote, shell } = require('electron');
+const { ipcRenderer, shell } = require('electron');
 
 ipcRenderer.on('about-window:info', function (_, info) {
-    const app_name = info.product_name || remote.app.getName();
+    const app_name = info.product_name || 'BloomRPC';
     const open_home = () => shell.openExternal(info.homepage);
     const content = info.use_inner_html ? 'innerHTML' : 'innerText';
     document.title = `About ${app_name}`;
 
     const title_elem = document.querySelector('.title');
-    title_elem.innerText = `${app_name} ${info.version || remote.app.getVersion()}`;
+    title_elem.innerText = `${app_name} ${info.version || ''}`;
 
     if (info.homepage) {
         title_elem.addEventListener('click', open_home);
@@ -48,17 +48,6 @@ ipcRenderer.on('about-window:info', function (_, info) {
             link.rel = 'stylesheet';
             link.href = css_path;
             document.head.appendChild(link);
-        }
-    }
-
-    if (info.adjust_window_size) {
-        const height = document.body.scrollHeight;
-        const width = document.body.scrollWidth;
-        const win = remote.getCurrentWindow();
-        if (height > 0 && width > 0) {
-            // Note:
-            // Add 30px(= about 2em) to add padding in window
-            win.setContentSize(width, height + 40);
         }
     }
 

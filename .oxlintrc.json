@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "no-debugger": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "out",
+    "dist",
+    "release",
+    "app/node_modules",
+    "*.js"
+  ]
+}

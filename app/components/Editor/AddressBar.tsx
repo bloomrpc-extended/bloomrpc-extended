@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { Icon, Input, Modal, Select } from "antd";
 import { RequestType } from "./RequestType";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ProtoInfo } from "../../behaviour";
 import { EditorEnvironment } from "./Editor";
 
@@ -21,97 +20,55 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
   const [currentEnvironmentName, setCurrentEnvironmentName] = useState<string>(defaultEnvironment || "");
   const [newEnvironmentName, setNewEnvironmentName] = useState<string>("");
 
-  const [confirmedSave, setConfirmedSave] = useState(false);
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
+  const [saveModalVisible, setSaveModalVisible] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  useEffect(() => {
-    if (confirmedSave) {
-      if (newEnvironmentName) {
-        setCurrentEnvironmentName(newEnvironmentName);
-        onEnvironmentSave && onEnvironmentSave(newEnvironmentName);
-      } else {
-        setCurrentEnvironmentName(currentEnvironmentName);
-        onEnvironmentSave && onEnvironmentSave(currentEnvironmentName);
-      }
-
-      setConfirmedSave(false);
-      setNewEnvironmentName("");
+  function handleSave() {
+    if (newEnvironmentName) {
+      setCurrentEnvironmentName(newEnvironmentName);
+      onEnvironmentSave && onEnvironmentSave(newEnvironmentName);
+    } else {
+      onEnvironmentSave && onEnvironmentSave(currentEnvironmentName);
     }
-  }, [confirmedSave]);
+    setSaveModalVisible(false);
+    setNewEnvironmentName("");
+  }
 
-  useEffect(() => {
-    if (confirmedDelete) {
-      onEnvironmentDelete && onEnvironmentDelete(currentEnvironmentName)
+  function handleUpdate() {
+    onEnvironmentSave && onEnvironmentSave(currentEnvironmentName);
+    setUpdateModalVisible(false);
+  }
 
-      setConfirmedDelete(false);
-      setCurrentEnvironmentName("");
-    }
-  }, [confirmedDelete]);
+  function handleDelete() {
+    onEnvironmentDelete && onEnvironmentDelete(currentEnvironmentName);
+    setDeleteModalVisible(false);
+    setCurrentEnvironmentName("");
+  }
 
   return (
       <>
-        <Input.Group compact>
+        <Input.Group compact style={{width: "100%"}}>
           <Select
               defaultValue={currentEnvironmentName}
               value={currentEnvironmentName || undefined}
               placeholder={"Env"}
               style={{width: "20%"}}
+              dropdownMatchSelectWidth={false}
               dropdownStyle={{ minWidth: 200 }}
               onSelect={(value: string) => {
-                // Save brand new environment
                 if (value === "new") {
-                  Modal.confirm({
-                    title: 'Environment Name',
-                    className: "env-modal",
-                    icon: (
-                        <Icon type="project" />
-                    ),
-                    onOk: () => {
-                      setConfirmedSave(true);
-                    },
-                    content: (
-                        <Input autoFocus={true} required placeholder={"Staging"} onChange={(e) => {
-                          setNewEnvironmentName(e.target.value);
-                        }} />
-                    ),
-
-                    okText: 'Confirm',
-                    cancelText: 'Cancel',
-                  });
+                  setSaveModalVisible(true);
                   return;
                 }
 
                 if (value === "update") {
-                  Modal.confirm({
-                    title: `Update ${currentEnvironmentName}?`,
-                    className: "env-modal",
-                    icon: (
-                        <Icon type="project" />
-                    ),
-                    onOk: () => {
-                      setConfirmedSave(true);
-                    },
-                    content: `Do you want to update the environment?`,
-                    okText: 'Confirm',
-                    cancelText: 'Cancel',
-                  });
+                  setUpdateModalVisible(true);
                   return;
                 }
 
                 if (value === "delete") {
-                  Modal.confirm({
-                    title: `Deleting ${currentEnvironmentName}?`,
-                    className: "env-modal",
-                    icon: (
-                        <Icon type="delete" />
-                    ),
-                    onOk: () => {
-                      setConfirmedDelete(true);
-                    },
-                    content: `Are you sure do you want to delete the environment?`,
-                    okText: 'Confirm',
-                    cancelText: 'Cancel',
-                  });
+                  setDeleteModalVisible(true);
                   return;
                 }
 
@@ -121,40 +78,65 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
                 onChangeEnvironment && onChangeEnvironment(selectedEnv);
               }}
           >
-            <Select.Option value="">
-              None
-            </Select.Option>
-
-            {environments && environments.map(environment => (
-              <Select.Option key={environment.name} value={environment.name}>{environment.name}</Select.Option>
+            <Select.Option value={""}>None</Select.Option>
+            {(environments || []).map(env => (
+              <Select.Option key={env.name} value={env.name}>{env.name}</Select.Option>
             ))}
-
-            {currentEnvironmentName &&
-              <Select.Option value="update">
-                  <Icon type="edit" /> Update Environment
-              </Select.Option>
-            }
-            {currentEnvironmentName &&
-            <Select.Option value="delete">
-                <Icon type="delete" /> Delete Environment
-            </Select.Option>
-            }
-            <Select.Option value="new">
-              <Icon type="plus-circle" /> Save New Environment
-            </Select.Option>
+            {currentEnvironmentName ? <Select.Option value="update"><Icon type="edit" /> Update Environment</Select.Option> : null}
+            {currentEnvironmentName ? <Select.Option value="delete"><Icon type="delete" /> Delete Environment</Select.Option> : null}
+            <Select.Option value="new"><Icon type="plus-circle" /> Save New Environment</Select.Option>
           </Select>
           <Input
               style={{width: "80%"}}
               className="server-url"
               addonAfter={(
                   <div style={{display: "flex", alignItems: "center", width: "125px"}}>
-                    {loading ? <Icon type="loading"/> : <Icon type="database"/>}
+                    {loading ? <Icon type="loading" /> : <Icon type="database" />}
                     <RequestType protoInfo={protoInfo} />
                   </div>
               )}
               value={url}
               onChange={onChangeUrl}/>
         </Input.Group>
+
+        <Modal
+          title="Environment Name"
+          visible={saveModalVisible}
+          onOk={handleSave}
+          onCancel={() => { setSaveModalVisible(false); setNewEnvironmentName(""); }}
+          okText="Confirm"
+          cancelText="Cancel"
+        >
+          <Input
+            autoFocus
+            required
+            placeholder="Staging"
+            value={newEnvironmentName}
+            onChange={(e) => setNewEnvironmentName(e.target.value)}
+          />
+        </Modal>
+
+        <Modal
+          title={`Update ${currentEnvironmentName}?`}
+          visible={updateModalVisible}
+          onOk={handleUpdate}
+          onCancel={() => setUpdateModalVisible(false)}
+          okText="Confirm"
+          cancelText="Cancel"
+        >
+          Do you want to update the environment?
+        </Modal>
+
+        <Modal
+          title={`Delete ${currentEnvironmentName}?`}
+          visible={deleteModalVisible}
+          onOk={handleDelete}
+          onCancel={() => setDeleteModalVisible(false)}
+          okText="Confirm"
+          cancelText="Cancel"
+        >
+          Are you sure you want to delete the environment?
+        </Modal>
       </>
   )
 }

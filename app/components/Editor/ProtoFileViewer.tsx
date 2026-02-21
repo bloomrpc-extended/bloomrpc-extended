@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AceEditor from 'react-ace';
 import { Drawer } from 'antd';
 import { ProtoInfo } from '../../behaviour';

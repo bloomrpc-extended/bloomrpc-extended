@@ -1,5 +1,4 @@
-// @ts-ignore
-import * as Store from 'electron-store';
+import Store from 'electron-store';
 import { ProtoFile } from '../behaviour';
 import { EditorTabs } from '../components/BloomRPC';
 import { EditorRequest } from '../components/Editor';

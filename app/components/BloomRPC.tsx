@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Layout, notification } from 'antd';
-import arrayMove from 'array-move';
+import { arrayMove } from '@dnd-kit/sortable';
 import { Sidebar } from './Sidebar';
 import { TabData, TabList } from './TabList';
 import {loadProtos, ProtoFile, ProtoService} from '../behaviour';
@@ -137,7 +137,7 @@ export function BloomRPC() {
  * @param setProtos
  * @param setEditorTabs
  */
-async function hydrateEditor(setProtos: React.Dispatch<ProtoFile[]>, setEditorTabs: React.Dispatch<EditorTabs>) {
+async function hydrateEditor(setProtos: React.Dispatch<React.SetStateAction<ProtoFile[]>>, setEditorTabs: React.Dispatch<React.SetStateAction<EditorTabs>>) {
   const hydration = [];
   const savedProtos = getProtos();
   const importPaths = getImportPaths();
@@ -152,8 +152,10 @@ async function hydrateEditor(setProtos: React.Dispatch<ProtoFile[]>, setEditorTa
     if (savedEditorTabs) {
       hydration.push(
         loadTabs(savedEditorTabs)
-          .catch(() => setEditorTabs({activeKey: "0", tabs: []}))
-          .then(setEditorTabs)
+          .catch(() => ({activeKey: "0", tabs: []} as EditorTabs))
+          .then((tabs) => {
+            if (tabs) setEditorTabs(tabs);
+          })
           .then(() => true)
       );
     }
@@ -207,7 +209,7 @@ async function loadTabs(editorTabs: EditorTabsStorage): Promise<EditorTabs> {
  * @param setProtos
  * @param protos
  */
-function handleProtoUpload(setProtos: React.Dispatch<ProtoFile[]>, protos: ProtoFile[]) {
+function handleProtoUpload(setProtos: React.Dispatch<React.SetStateAction<ProtoFile[]>>, protos: ProtoFile[]) {
   return function (newProtos: ProtoFile[], err: Error | void) {
     if (err) {
       notification.error({
@@ -239,7 +241,7 @@ function handleProtoUpload(setProtos: React.Dispatch<ProtoFile[]>, protos: Proto
  * @param editorTabs
  * @param setTabs
  */
-function handleMethodSelected(editorTabs: EditorTabs, setTabs: React.Dispatch<EditorTabs>) {
+function handleMethodSelected(editorTabs: EditorTabs, setTabs: React.Dispatch<React.SetStateAction<EditorTabs>>) {
   return (methodName: string, protoService: ProtoService) => {
     const tab = {
       tabKey: `${protoService.serviceName}${methodName}`,
@@ -267,7 +269,7 @@ function handleMethodSelected(editorTabs: EditorTabs, setTabs: React.Dispatch<Ed
   }
 }
 
-function handleMethodDoubleClick(editorTabs: EditorTabs, setTabs: React.Dispatch<EditorTabs>){
+function handleMethodDoubleClick(editorTabs: EditorTabs, setTabs: React.Dispatch<React.SetStateAction<EditorTabs>>){
   return (methodName: string, protoService: ProtoService) => {
     const tab = {
       tabKey: `${protoService.serviceName}${methodName}-${uuidv4()}`,

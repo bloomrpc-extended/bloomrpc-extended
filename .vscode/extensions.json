@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "oxc.oxc-vscode",
+    "nicolo-ribaudo.vite-dev-server"
+  ],
+  "unwantedRecommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

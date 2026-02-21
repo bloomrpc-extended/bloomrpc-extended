@@ -220,7 +220,6 @@ function handleProtoUpload(setProtos: React.Dispatch<ProtoFile[]>, protos: Proto
           wordBreak: "break-all",
         }
       });
-      setProtos([]);
       return;
     }
 

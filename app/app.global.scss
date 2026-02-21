@@ -187,6 +187,35 @@
   to   { transform: translateX(0); }
 }
 
+.tab-search-bar {
+  padding: 0 8px;
+  width: 180px;
+
+  .ant-input-affix-wrapper {
+    border-radius: 4px;
+  }
+}
+
+.tab-overflow-trigger {
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tab-close-all {
+  font-size: 16px;
+  color: #999;
+  cursor: pointer;
+  padding: 6px 12px;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #f5222d;
+  }
+}
+
 .ant-modal { animation: modalEnter 200ms ease-out; }
 .ant-modal-mask { animation: maskEnter 200ms ease-out; }
 .ant-drawer.ant-drawer-open .ant-drawer-content-wrapper {

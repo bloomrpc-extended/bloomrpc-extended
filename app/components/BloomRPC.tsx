@@ -15,7 +15,10 @@ import {
   storeProtos,
   storeRequestInfo,
   storeTabs,
+  getTabUXSettings,
+  storeTabUXSettings,
 } from '../storage';
+import { TabUXSettings } from '../storage/settings';
 import { EditorEnvironment } from "./Editor";
 import { getEnvironments } from "../storage/environments";
 import { v4 as uuidv4 } from 'uuid';
@@ -34,6 +37,12 @@ export function BloomRPC() {
   });
 
   const [environments, setEnvironments] = useState<EditorEnvironment[]>(getEnvironments());
+  const [settings, setSettingsState] = useState<TabUXSettings>(getTabUXSettings());
+
+  function handleSettingsChange(newSettings: TabUXSettings) {
+    setSettingsState(newSettings);
+    storeTabUXSettings(newSettings);
+  }
 
   function setTabs(props: EditorTabs) {
     setEditorTabs(props);
@@ -65,12 +74,15 @@ export function BloomRPC() {
               setProtos([]);
             }}
             onMethodDoubleClick={handleMethodDoubleClick(editorTabs, setTabs)}
+            settings={settings}
+            onSettingsChange={handleSettingsChange}
           />
         </Layout.Sider>
 
         <Layout.Content>
           <TabList
             tabs={editorTabs.tabs || []}
+            settings={settings}
             onDragEnd={({oldIndex, newIndex}) => {
               const newTab = editorTabs.tabs[oldIndex];
 
@@ -90,6 +102,10 @@ export function BloomRPC() {
             }}
             onEditorRequestChange={(editorRequestInfo) => {
               storeRequestInfo(editorRequestInfo);
+            }}
+            onCloseAll={() => {
+              editorTabs.tabs.forEach(tab => deleteRequestInfo(tab.tabKey));
+              setTabs({ activeKey: "0", tabs: [] });
             }}
             onDelete={(activeKey: string) => {
               let newActiveKey = "0";

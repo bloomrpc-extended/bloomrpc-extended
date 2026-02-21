@@ -23,6 +23,14 @@
 - Metadata editor
 - Draggable tabs for multiple services
 
+## What's New (vs. original BloomRPC)
+
+- **Tab search/filter** — Quickly find tabs by method or service name
+- **Tab grouping by service** — Color-coded dots on each tab, sorted by service name
+- **Tab overflow menu** — Dropdown listing all open tabs with badge count
+- **Close all tabs** — One-click button to close every open tab
+- **Settings modal** — Toggle tab search, grouping, and overflow menu individually; settings persist across restarts
+
 ## Getting Started
 
 ### Prerequisites

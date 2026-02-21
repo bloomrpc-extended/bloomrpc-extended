@@ -1,7 +1,7 @@
 const { ipcRenderer, shell } = require('electron');
 
 ipcRenderer.on('about-window:info', function (_, info) {
-    const app_name = info.product_name || 'BloomRPC';
+    const app_name = info.product_name || 'BloomRPC Extended';
     const open_home = () => shell.openExternal(info.homepage);
     const content = info.use_inner_html ? 'innerHTML' : 'innerText';
     document.title = `About ${app_name}`;

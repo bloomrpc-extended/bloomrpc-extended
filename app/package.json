@@ -1,7 +1,7 @@
 {
-  "name": "bloomrpc",
-  "productName": "bloom-rpc-client",
-  "version": "1.5.3",
+  "name": "bloomrpc-extended",
+  "productName": "BloomRPC Extended",
+  "version": "2.0.0",
   "description": "GRPC GUI client",
   "main": "./out/main/index.js",
   "author": {

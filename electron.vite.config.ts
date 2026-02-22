@@ -148,8 +148,10 @@ export default defineConfig({
     plugins: [
       externalizeNodeBuiltins(),
       externalizeDepsPlugin({
-        // Bundle electron-store (ESM-only) instead of externalizing
-        exclude: ['electron-store'],
+        // Bundle these instead of externalizing:
+        // - electron-store: ESM-only package
+        // - @codemirror/lint: not in app/node_modules, must be bundled for packaged builds
+        exclude: ['electron-store', '@codemirror/lint'],
       }),
       stripModuleAttributes(),
     ],

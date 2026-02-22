@@ -14,7 +14,6 @@
 
 .ant-layout-content > .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content {
   height: 100%;
-  padding-bottom: 82px;
 }
 
 .ant-tabs-bar {
@@ -214,6 +213,14 @@
   &:hover {
     color: #f5222d;
   }
+}
+
+.editor-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2px 4px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
 
 .ant-modal { animation: modalEnter 200ms ease-out; }

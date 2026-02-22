@@ -142,6 +142,9 @@ export default defineConfig({
   },
   renderer: {
     root: resolve(__dirname, 'app'),
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
     plugins: [
       externalizeNodeBuiltins(),
       externalizeDepsPlugin({

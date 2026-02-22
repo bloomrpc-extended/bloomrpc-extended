@@ -7,10 +7,14 @@
  * bloomrpc-mock's require('grpc').loadPackageDefinition creates service
  * constructors that expect a different ChannelCredentials class than
  * the one from require('@grpc/grpc-js').credentials.createInsecure().
+ *
+ * Instead of resolving to a fixed path (which depends on the preload's
+ * location and may differ between dev and packaged builds), we resolve
+ * '@grpc/grpc-js' from the *caller's* context so both sides always get
+ * the same module instance.
  */
 import Module from 'module';
 
-const grpcJsPath = require.resolve('@grpc/grpc-js');
 const origResolveFilename = (Module as any)._resolveFilename;
 (Module as any)._resolveFilename = function (
   request: string,
@@ -19,7 +23,7 @@ const origResolveFilename = (Module as any)._resolveFilename;
   options: any,
 ) {
   if (request === 'grpc') {
-    return grpcJsPath;
+    return origResolveFilename.call(this, '@grpc/grpc-js', parent, isMain, options);
   }
   return origResolveFilename.call(this, request, parent, isMain, options);
 };

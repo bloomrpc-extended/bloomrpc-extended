@@ -286,62 +286,64 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
         )}
       </div>
 
-      <div style={styles.editorContainer}>
-        <Resizable
-            enable={{ right: true }}
-            defaultSize={{
-              width: "50%",
-            }}
-            maxWidth={"80%"}
-            minWidth={"10%"}
-        >
-          <Request
-            data={state.data}
-            streamData={state.requestStreamData}
-            active={active}
-            onChangeData={(value) => {
-              dispatch(setData(value));
-              onRequestChange?.({
-                ...state,
-                data: value,
-              });
-            }}
-          />
+      <div style={styles.contentWrapper}>
+        <div style={styles.editorContainer}>
+          <Resizable
+              enable={{ right: true }}
+              defaultSize={{
+                width: "50%",
+              }}
+              maxWidth={"80%"}
+              minWidth={"10%"}
+          >
+            <Request
+              data={state.data}
+              streamData={state.requestStreamData}
+              active={active}
+              onChangeData={(value) => {
+                dispatch(setData(value));
+                onRequestChange?.({
+                  ...state,
+                  data: value,
+                });
+              }}
+            />
 
-          <div style={{
-            ...styles.playIconContainer,
-            ...(isControlVisible(state) ? styles.streamControlsContainer : {}),
-          }}>
-            <Controls
-                active={active}
-                dispatch={dispatch}
-                state={state}
-                protoInfo={protoInfo}
+            <div style={{
+              ...styles.playIconContainer,
+              ...(isControlVisible(state) ? styles.streamControlsContainer : {}),
+            }}>
+              <Controls
+                  active={active}
+                  dispatch={dispatch}
+                  state={state}
+                  protoInfo={protoInfo}
+              />
+            </div>
+          </Resizable>
+
+          <div style={{...styles.responseContainer}}>
+            <Response
+              streamResponse={state.responseStreamData}
+              response={state.response}
             />
           </div>
-        </Resizable>
-
-        <div style={{...styles.responseContainer}}>
-          <Response
-            streamResponse={state.responseStreamData}
-            response={state.response}
-          />
         </div>
-      </div>
 
-      <Metadata
-        onClickMetadata={() => {
-          dispatch(setMetadataVisibilty(!state.metadataOpened));
-        }}
-        onMetadataChange={(value) => {
-          dispatch(setMetadata(value));
-          onRequestChange?.({
-            ...state,
-            metadata: value,
-          });
-        }}
-        value={state.metadata}
-      />
+        <Metadata
+          onClickMetadata={() => {
+            dispatch(setMetadataVisibilty(!state.metadataOpened));
+          }}
+          onMetadataChange={(value) => {
+            dispatch(setMetadata(value));
+            onRequestChange?.({
+              ...state,
+              metadata: value,
+            });
+          }}
+          value={state.metadata}
+        />
+      </div>
 
       {protoInfo && (
         <ProtoFileViewer
@@ -359,6 +361,13 @@ const styles = {
     width: "100%",
     height: "100%",
     position: "relative" as const,
+    display: "flex",
+    flexDirection: "column" as const,
+  },
+  contentWrapper: {
+    position: "relative" as const,
+    flex: "1 1 0%",
+    minHeight: 0,
   },
   editorContainer: {
     display: "flex",
@@ -394,5 +403,6 @@ const styles = {
     background: "#fafafa",
     padding: "15px",
     boxShadow: "2px 0px 4px 0px rgba(0,0,0,0.20)",
+    flexShrink: 0,
   },
 };

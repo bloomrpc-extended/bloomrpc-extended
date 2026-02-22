@@ -31,6 +31,9 @@
 - **Close all tabs** — One-click button to close every open tab
 - **Settings modal** — Toggle tab search, grouping, and overflow menu individually; settings persist across restarts
 - **CodeMirror 6 editor** — Replaced legacy ace-builds with modern CodeMirror 6 for reliable syntax highlighting in packaged builds
+- **Inline JSON linting** — Real-time syntax error highlighting with red underlines and gutter markers in Request and Metadata editors
+- **Format JSON button** — One-click pretty-printing for the Request editor
+- **Overlay metadata panel** — Redesigned metadata editor that expands upward as an overlay, with drag-to-resize support
 - **Minor bug fixes** — Various stability and packaging fixes
 
 ## Installation

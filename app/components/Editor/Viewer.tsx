@@ -1,5 +1,6 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { colors, fontSize, spacing, zIndex } from '../../theme/tokens';
 
 interface ResponseProps {
   output: string,
@@ -31,7 +32,7 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
             foldGutter: false,
             searchKeymap: true,
           }}
-          style={{ fontSize: 13, background: "#fff" }}
+          style={{ fontSize: fontSize.base, background: colors.white }}
         />
       )}
     </div>
@@ -40,17 +41,17 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
 
 const styles = {
   responseContainer: {
-    background: "white",
+    background: colors.white,
     position: "relative" as const,
   },
   responseTime: {
     userSelect: "none" as const,
-    fontSize: 11,
-    padding: "3px 7px",
-    background: '#f3f6f7',
+    fontSize: fontSize.xs,
+    padding: `${spacing.xs}px ${spacing.sm - 1}px`,
+    background: colors.bgHighlight,
     position: "absolute" as const,
-    top: "5px",
+    top: `${spacing.xs}px`,
     right: "0px",
-    zIndex: 30,
-  }
+    zIndex: zIndex.popover,
+  },
 };

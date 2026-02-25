@@ -18,6 +18,7 @@ import { Certificate, ProtoInfo, GRPCEventEmitter } from '../../behaviour';
 import { getMetadata, getUrl, storeUrl } from '../../storage';
 
 import { exportResponseToJSONFile } from "../../behaviour/response";
+import { colors, shadow, spacing, zIndex } from '../../theme/tokens';
 import { Resizable } from "re-resizable";
 import { AddressBar } from "./AddressBar";
 import { deleteEnvironment, getEnvironments, saveEnvironment } from "../../storage/environments";
@@ -363,22 +364,22 @@ const styles = {
   editorContainer: {
     display: "flex",
     height: "100%",
-    borderLeft: "1px solid rgba(0, 21, 41, 0.18)",
-    background: "#fff"
+    borderLeft: `1px solid ${colors.borderSubtle}`,
+    background: colors.white,
   },
   responseContainer: {
-    background: "white",
+    background: colors.white,
     maxWidth: "inherit",
     width: "inherit",
     display: "flex",
     flex: "1 1 0%",
-    borderLeft: "1px solid #eee",
-    borderRight: "1px solid rgba(0, 21, 41, 0.18)",
-    overflow: "auto"
+    borderLeft: `1px solid ${colors.borderLight}`,
+    borderRight: `1px solid ${colors.borderSubtle}`,
+    overflow: "auto",
   },
   playIconContainer: {
     position: "absolute" as const,
-    zIndex: 10,
+    zIndex: zIndex.content,
     right: "-30px",
     marginLeft: "-25px",
     top: "calc(50% - 80px)",
@@ -389,10 +390,10 @@ const styles = {
   inputContainer: {
     display: "flex",
     justifyContent: "space-between",
-    border: "1px solid rgba(0, 21, 41, 0.18)",
-    borderBottom: "1px solid #eee",
-    background: "#fafafa",
-    padding: "15px",
-    boxShadow: "2px 0px 4px 0px rgba(0,0,0,0.20)",
+    border: `1px solid ${colors.borderSubtle}`,
+    borderBottom: `1px solid ${colors.borderLight}`,
+    background: colors.bgPanel,
+    padding: `${spacing.base}px`,
+    boxShadow: shadow.elevated,
   },
 };

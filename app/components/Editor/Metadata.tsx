@@ -4,6 +4,7 @@ import { storeMetadata } from "../../storage";
 import { useState } from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { colors, fontSize, spacing, zIndex } from '../../theme/tokens';
 
 interface MetadataProps {
   onClickMetadata: () => void,
@@ -60,7 +61,7 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
               highlightActiveLine: false,
               foldGutter: false,
             }}
-            style={{ fontSize: 13, background: "#f5f5f5" }}
+            style={{ fontSize: fontSize.base, background: colors.bgSubtle }}
           />
         </div>
       </div>
@@ -70,20 +71,20 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
 
 const styles = {
   optionLabel: {
-    background: "#001529",
-    padding: "7px 10px",
-    marginBottom: "5px"
+    background: colors.bgDark,
+    padding: `${spacing.sm - 1}px ${spacing.sm}px`,
+    marginBottom: `${spacing.xs}px`,
   },
   optionContainer: {
     position: "absolute" as const,
     fontWeight: 900,
-    fontSize: "13px",
-    borderLeft: "1px solid rgba(0, 21, 41, 0.18)",
-    background: "#f5f5f5",
-    zIndex: 10,
+    fontSize: `${fontSize.base}px`,
+    borderLeft: `1px solid ${colors.borderSubtle}`,
+    background: colors.bgSubtle,
+    zIndex: zIndex.content,
   },
   optionLink: {
-    color: "#fff",
+    color: colors.white,
     textDecoration: "none",
   },
 };

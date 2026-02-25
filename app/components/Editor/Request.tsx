@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { fontSize } from '../../theme/tokens';
 import * as Mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 import { Tabs } from 'antd';
@@ -45,7 +46,7 @@ export function Request({onChangeData, data, streamData, active}: RequestProps) 
               foldGutter: true,
               searchKeymap: true,
             }}
-            style={{ fontSize: 13 }}
+            style={{ fontSize: fontSize.base }}
           />
         </Tabs.TabPane>
         {streamData.map((data, key) => (

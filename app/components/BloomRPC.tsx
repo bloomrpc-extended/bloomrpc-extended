@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { colors, fontSize, shadow, zIndex } from '../theme/tokens';
 import { Layout, notification } from 'antd';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Sidebar } from './Sidebar';
@@ -308,16 +309,16 @@ const styles = {
     height: "100vh"
   },
   header: {
-    color: "#fff",
+    color: colors.white,
     fontWeight: 900,
-    fontSize: 20,
+    fontSize: fontSize.xl,
     display: "flex",
     justifyContent: "space-between",
   },
   sider: {
-    zIndex: 20,
-    borderRight: "1px solid rgba(0, 21, 41, 0.18)",
-    backgroundColor: "white",
-    boxShadow: "3px 0px 4px 0px rgba(0,0,0,0.10)",
+    zIndex: zIndex.overlay,
+    borderRight: `1px solid ${colors.borderSubtle}`,
+    backgroundColor: colors.white,
+    boxShadow: shadow.subtle,
   },
 };

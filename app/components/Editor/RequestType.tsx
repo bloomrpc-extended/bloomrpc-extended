@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ProtoInfo } from '../../behaviour';
+import { colors, fontSize, spacing } from '../../theme/tokens';
 
 interface RequestTypeProps {
   protoInfo?: ProtoInfo
@@ -34,10 +35,10 @@ const styles = {
     width: "100%",
   },
   badge: {
-    backgroundColor: "#001529",
-    padding: "7px 8px",
-    fontSize: "11px",
-    color: "#fff",
+    backgroundColor: colors.bgDark,
+    padding: `${spacing.sm - 1}px ${spacing.sm}px`,
+    fontSize: `${fontSize.xs}px`,
+    color: colors.white,
     fontWeight: 500,
-  }
+  },
 };

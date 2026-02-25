@@ -1,4 +1,5 @@
 import { Icon, Input } from 'antd';
+import { colors } from '../../theme/tokens';
 
 interface TabSearchBarProps {
   value: string;
@@ -10,12 +11,12 @@ export function TabSearchBar({ value, onChange }: TabSearchBarProps) {
     <div className="tab-search-bar">
       <Input
         placeholder="Filter tabs..."
-        prefix={<Icon type="search" style={{ color: '#bbb' }} />}
+        prefix={<Icon type="search" style={{ color: colors.textDisabled }} />}
         suffix={
           value ? (
             <Icon
               type="close-circle"
-              style={{ color: '#bbb', cursor: 'pointer' }}
+              style={{ color: colors.textDisabled, cursor: 'pointer' }}
               onClick={() => onChange('')}
             />
           ) : null

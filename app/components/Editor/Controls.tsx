@@ -4,6 +4,7 @@ import { PlayButton } from './PlayButton';
 import { Icon, Tooltip } from 'antd';
 import { setRequestStreamData, setStreamCommitted } from './actions';
 import { ProtoInfo } from '../../behaviour';
+import { colors, fontSize, spacing } from '../../theme/tokens';
 
 export interface ControlsStateProps {
   dispatch: React.Dispatch<EditorAction>
@@ -67,29 +68,29 @@ export function isControlVisible(state: EditorState) {
 const styles = {
   controlsContainer: {
     display: "flex",
-    marginLeft: "-15px",
-    marginTop: 17
+    marginLeft: `-${spacing.base}px`,
+    marginTop: spacing.base,
   },
   pushData: {
-    background: "#11c9f3",
-    color: "white",
-    padding: "10px",
-    paddingLeft: "12px",
+    background: colors.streamPush,
+    color: colors.white,
+    padding: `${spacing.sm}px`,
+    paddingLeft: `${spacing.md}px`,
     borderRadius: "50% 0 0 50%",
-    fontSize: "18px",
+    fontSize: `${fontSize.lg}px`,
     cursor: "pointer",
-    border: "2px solid rgb(238, 238, 238)",
-    borderRight: "none"
+    border: `2px solid ${colors.borderLight}`,
+    borderRight: "none",
   },
   commit: {
-    background: "#28d440",
-    color: "white",
-    padding: "10px",
-    paddingLeft: "12px",
+    background: colors.success,
+    color: colors.white,
+    padding: `${spacing.sm}px`,
+    paddingLeft: `${spacing.md}px`,
     borderRadius: "0 50% 50% 0",
-    fontSize: "18px",
+    fontSize: `${fontSize.lg}px`,
     cursor: "pointer",
-    border: "2px solid rgb(238, 238, 238)",
+    border: `2px solid ${colors.borderLight}`,
     borderLeft: "none",
-  }
+  },
 };

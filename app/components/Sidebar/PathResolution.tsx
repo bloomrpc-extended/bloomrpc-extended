@@ -2,6 +2,7 @@ import { Icon, Input, Table, Tooltip } from "antd";
 import { useState } from "react";
 import { importResolvePath } from "../../behaviour";
 import { storeImportPaths } from "../../storage";
+import { colors, fontSize, spacing } from '../../theme/tokens';
 
 interface PathResolutionProps {
   onImportsChange?: (paths: string[]) => void
@@ -70,7 +71,7 @@ export function PathResolution({ importPaths, onImportsChange }: PathResolutionP
                       <Tooltip placement="top" title="Remove">
                         <Icon
                             type="close"
-                            style={{fontSize: 16, cursor: "pointer", marginTop: 5}}
+                            style={{fontSize: fontSize.md, cursor: "pointer", marginTop: spacing.xs}}
                             onClick={() => removePath(path.value, importPaths, onImportsChange)}
                         />
                       </Tooltip>
@@ -78,7 +79,7 @@ export function PathResolution({ importPaths, onImportsChange }: PathResolutionP
                       <Tooltip placement="top" title="Add">
                         <Icon
                             type="plus"
-                            style={{color: '#28d440', fontSize: 18, cursor: "pointer", marginTop: 5}}
+                            style={{color: colors.success, fontSize: fontSize.lg, cursor: "pointer", marginTop: spacing.xs}}
                             onClick={() => {
                               const pathAdded = addImportPath(pathValue, importPaths, onImportsChange);
                               if (pathAdded) {

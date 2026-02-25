@@ -7,6 +7,8 @@ import { getImportPaths } from "../../storage";
 import {UrlResolution} from "./UrlResolution";
 import { SettingsModal } from "../Settings/SettingsModal";
 import { TabUXSettings } from "../../storage/settings";
+import { colors, fontSize, radius, spacing } from '../../theme/tokens';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface SidebarProps {
   protos: ProtoFile[]
@@ -27,6 +29,9 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
   const [filterMatch, setFilterMatch] = useState<string|null>(null);
   const [importReflectionVisible, setImportReflectionVisible] = useState(false);
   const [settingsVisible, setSettingsVisible] = useState(false);
+
+  const { shouldRender: importPathRender, closing: importPathClosing } = useCloseAnimation(importPathVisible);
+  const { shouldRender: reflectionRender, closing: reflectionClosing } = useCloseAnimation(importReflectionVisible);
 
   useEffect(() => {
     setImportPaths(getImportPaths());
@@ -107,7 +112,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               style={{height: 24, paddingRight: 5, paddingLeft: 5}}
               onClick={onReload}
             >
-              <Icon type="reload" style={{cursor: "pointer", color: "#1d93e6"}}/>
+              <Icon type="reload" style={{cursor: "pointer", color: colors.primary}}/>
             </Button>
           </Tooltip>
 
@@ -117,7 +122,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                 style={{height: 24, paddingRight: 5, paddingLeft: 5, marginLeft: 5}}
                 onClick={() => setImportPathsVisible(true)}
             >
-              <Icon type="file-search" style={{cursor: "pointer", color: "#1d93e6"}}/>
+              <Icon type="file-search" style={{cursor: "pointer", color: colors.primary}}/>
             </Button>
           </Tooltip>
 
@@ -127,7 +132,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               style={{height: 24, paddingRight: 5, paddingLeft: 5, marginLeft: 5}}
               onClick={() => toggleFilter()}
             >
-              <Icon type="filter" style={{cursor: "pointer", color: "#1d93e6"}}/>
+              <Icon type="filter" style={{cursor: "pointer", color: colors.primary}}/>
             </Button>
           </Tooltip>
 
@@ -137,7 +142,7 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               style={{height: 24, paddingRight: 5, paddingLeft: 5, marginLeft: 5}}
               onClick={() => setSettingsVisible(true)}
             >
-              <Icon type="setting" style={{cursor: "pointer", color: "#1d93e6"}}/>
+              <Icon type="setting" style={{cursor: "pointer", color: colors.primary}}/>
             </Button>
           </Tooltip>
 
@@ -156,7 +161,8 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                   </div>
               )}
               transitionName="" maskTransitionName=""
-              visible={importPathVisible}
+              visible={importPathRender}
+              wrapClassName={importPathClosing ? 'modal-closing' : ''}
               onCancel={() => setImportPathsVisible(false)}
               onOk={() => setImportPathsVisible(false)}
               bodyStyle={{ padding: 0 }}
@@ -179,7 +185,8 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               </div>
             )}
             transitionName="" maskTransitionName=""
-            visible={importReflectionVisible}
+            visible={reflectionRender}
+            wrapClassName={reflectionClosing ? 'modal-closing' : ''}
             onCancel={() => setImportReflectionVisible(false)}
             onOk={() => setImportReflectionVisible(false)}
             width={750}
@@ -280,32 +287,32 @@ const styles = {
   sidebarTitleContainer: {
     display: "flex",
     justifyContent: "space-between",
-    paddingTop: 6,
-    paddingBottom: 4,
-    paddingLeft: 20,
-    paddingRight: 10,
-    borderBottom: "1px solid #eee",
-    background: "#001529"
+    paddingTop: spacing.sm - 2,
+    paddingBottom: spacing.xs,
+    paddingLeft: spacing.lg,
+    paddingRight: spacing.sm,
+    borderBottom: `1px solid ${colors.borderLight}`,
+    background: colors.bgDark,
   },
   sidebarTitle: {
-    color: "#fff",
-    marginTop: "0.5em"
+    color: colors.white,
+    marginTop: "0.5em",
   },
   icon: {
-    fontSize: 23,
-    marginBottom: 7,
-    marginRight: 12,
+    fontSize: fontSize.xl + 4,
+    marginBottom: spacing.sm - 1,
+    marginRight: spacing.md,
     marginTop: -2,
-    color: "#28d440",
-    border: "2px solid #f3f6f9",
-    borderRadius: "50%",
-    cursor: "pointer"
+    color: colors.success,
+    border: `2px solid ${colors.bgHighlight}`,
+    borderRadius: radius.full,
+    cursor: "pointer",
   },
   optionsContainer: {
-    background: "#fafafa",
-    padding: "3px 6px",
+    background: colors.bgPanel,
+    padding: `${spacing.xs}px ${spacing.sm - 2}px`,
     display: "flex",
     alignContent: "space-between",
-    borderBottom: "1px solid #e0e0e0",
-  }
+    borderBottom: `1px solid ${colors.borderLight}`,
+  },
 };

@@ -1,6 +1,8 @@
 import { Drawer } from 'antd';
 import { ProtoInfo } from '../../behaviour';
+import { colors, fontSize, spacing } from '../../theme/tokens';
 import CodeMirror from '@uiw/react-codemirror';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface ProtoFileViewerProps {
   protoInfo: ProtoInfo
@@ -9,6 +11,7 @@ interface ProtoFileViewerProps {
 }
 
 export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewerProps) {
+  const { shouldRender, closing } = useCloseAnimation(visible, 250);
 
   return (
     <Drawer
@@ -17,7 +20,8 @@ export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewer
       width={"50%"}
       closable={false}
       onClose={onClose}
-      visible={visible}
+      visible={shouldRender}
+      className={closing ? 'drawer-closing' : ''}
       style={{ transition: 'none' }}
     >
       <CodeMirror
@@ -30,7 +34,7 @@ export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewer
           highlightActiveLine: false,
           foldGutter: false,
         }}
-        style={{ marginTop: "10px", fontSize: 13, background: "#fff" }}
+        style={{ marginTop: `${spacing.sm}px`, fontSize: fontSize.base, background: colors.white }}
       />
     </Drawer>
   );

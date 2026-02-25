@@ -1,6 +1,7 @@
 import { Tabs } from 'antd';
 import { Viewer } from './Viewer';
 import { EditorResponse } from "./Editor";
+import { fontSize, zIndex } from '../../theme/tokens';
 import logoIcon from './../../../resources/icons/128x128.png';
 
 interface ResponseProps {
@@ -54,12 +55,12 @@ const styles = {
     margin: "20% 30% auto",
     width: "45%",
     position: "absolute" as const,
-    zIndex: 7,
+    zIndex: zIndex.content,
   },
   introTitle: {
     userSelect: "none" as const,
     color: "rgba(17, 112, 134, 0.58)",
-    fontSize: "25px",
+    fontSize: `${fontSize.xxl}px`,
     top: "120px",
   },
 }

@@ -1,5 +1,37 @@
 @import 'antd/dist/antd.css';
 
+// Design tokens as CSS custom properties — mirrors app/theme/tokens.ts
+:root {
+  --color-primary: #1890ff;
+  --color-success: #28d440;
+  --color-danger: #f5222d;
+  --color-warning: #ffa733;
+
+  --color-bg-dark: #001529;
+  --color-bg-panel: #fafafa;
+  --color-bg-subtle: #f5f5f5;
+  --color-bg-highlight: #f3f6f7;
+
+  --color-text-primary: #014f9a;
+  --color-text-secondary: #555;
+  --color-text-muted: #888;
+  --color-text-disabled: #bbb;
+
+  --color-border-light: #e8e8e8;
+  --color-border-subtle: rgba(0, 21, 41, 0.18);
+
+  --shadow-subtle: 2px 0px 4px 0px rgba(0,0,0,0.10);
+  --shadow-elevated: 2px 0px 4px 0px rgba(0,0,0,0.20);
+  --shadow-active-tab: 1px 0px 6px 1px rgba(0,0,0,0.15);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --z-content: 10;
+  --z-overlay: 20;
+  --z-popover: 30;
+}
+
 .root {
   background: #f0f2f5;
 }
@@ -22,7 +54,7 @@
 }
 
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
-  background: #f1f1f1;
+  background: var(--color-bg-subtle);
 }
 
 .hide {
@@ -30,16 +62,15 @@
 }
 
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
-  border: 1px solid rgba(0, 21, 41, 0.18);
+  border: 1px solid var(--color-border-subtle);
   border-bottom: 0;
-  color: #014f9a;
-  background: #fafafa;
-  box-shadow: 1px 0px 6px 1px rgba(0,0,0,0.15);
-
+  color: var(--color-text-primary);
+  background: var(--color-bg-panel);
+  box-shadow: var(--shadow-active-tab);
 }
 
 .ant-tabs-nav .ant-tabs-tab:hover {
-  color: #014f9a;
+  color: var(--color-text-primary);
 }
 
 .server-url {
@@ -47,7 +78,7 @@
 }
 
 .ant-input-group-addon {
-  background: #001529;
+  background: var(--color-bg-dark);
   color: #fff;
 }
 
@@ -55,7 +86,7 @@
 .response-edit {
 
 .ace_gutter > .ace_layer {
-  margin-left: -15px;
+  margin-left: -16px;
 }
 }
 
@@ -63,13 +94,13 @@
   border-radius: 0;
   position: absolute;
   top: -10px;
-  z-index: 30;
+  z-index: var(--z-popover);
   width: 39%;
   right: 0px;
 }
 
 .ant-drawer-header {
-  background: #001529;
+  background: var(--color-bg-dark);
   border-radius: 0px;
 
 .ant-drawer-title {
@@ -79,22 +110,22 @@
 }
 
 .ant-tabs-nav-scroll {
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .ant-tabs-nav-wrap {
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .ant-tabs-nav .ant-tabs-tab {
   padding: 4px;
-  padding-left: 17px;
+  padding-left: 16px;
   user-select: none;
 }
 
 .ant-tabs-nav .ant-tabs-tab-active {
-  border-bottom-color: #eee;
-  color: #014f9a;
+  border-bottom-color: var(--color-border-light);
+  color: var(--color-text-primary);
 }
 
 .ant-tabs-bar {
@@ -110,7 +141,7 @@
 }
 
 .ant-modal-header {
-  background: #001529;
+  background: var(--color-bg-dark);
   border-bottom: none;
   .ant-modal-title {
     color: #fff;
@@ -126,19 +157,19 @@
 .draggable-tab {
   position: relative;
   padding-bottom: 1px;
-  color: #1890ff;
+  color: var(--color-primary);
   background: #fff;
   font-size: 14px;
 
-  border-color: #e8e8e8;
+  border-color: var(--color-border-light);
 
   height: 40px !important;
 
   padding: 0px 16px;
   line-height: 38px;
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 
-  border: 1px solid rgba(0, 21, 41, 0.18);
+  border: 1px solid var(--color-border-subtle);
   border-bottom: 0;
 
   .ant-tabs-close-x {
@@ -171,20 +202,34 @@
   }
 }
 
-// Open-only keyframe animations for modals/drawers.
+// Keyframe animations for modals/drawers.
 // rc-animate is disabled (transitionName="") to avoid flicker
-// with React 18's automatic batching. These fire on mount only.
+// with React 18's automatic batching. Open animations fire on mount;
+// close animations are triggered via a wrapper class added by useCloseAnimation.
+
 @keyframes modalEnter {
   from { opacity: 0; transform: scale(0.85); }
   to   { opacity: 1; transform: scale(1); }
+}
+@keyframes modalExit {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.85); }
 }
 @keyframes maskEnter {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes maskExit {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
 @keyframes drawerSlideRight {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
+}
+@keyframes drawerSlideOut {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
 }
 
 .tab-search-bar {
@@ -192,7 +237,7 @@
   width: 180px;
 
   .ant-input-affix-wrapper {
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -212,7 +257,7 @@
   flex-shrink: 0;
 
   &:hover {
-    color: #f5222d;
+    color: var(--color-danger);
   }
 }
 
@@ -220,4 +265,19 @@
 .ant-modal-mask { animation: maskEnter 200ms ease-out; }
 .ant-drawer.ant-drawer-open .ant-drawer-content-wrapper {
   animation: drawerSlideRight 250ms ease-out;
+}
+
+// Exit animations — triggered by useCloseAnimation adding a closing class.
+.modal-closing .ant-modal {
+  animation: modalExit 200ms ease-in forwards !important;
+}
+// :has(+) targets the mask sibling that precedes the closing wrap.
+.ant-modal-mask:has(+ .modal-closing) {
+  animation: maskExit 200ms ease-in forwards !important;
+}
+.ant-drawer.drawer-closing .ant-drawer-content-wrapper {
+  animation: drawerSlideOut 250ms ease-in forwards !important;
+}
+.ant-drawer.drawer-closing > .ant-drawer-mask {
+  animation: maskExit 250ms ease-in forwards !important;
 }

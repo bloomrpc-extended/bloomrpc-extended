@@ -45,6 +45,9 @@
       "!node_modules/grpc",
       "!node_modules/**/grpc"
     ],
+    "mac": {
+      "identity": null
+    },
     "dmg": {
       "artifactName": "BloomRPC-Extended-${version}-${arch}.${ext}",
       "contents": [

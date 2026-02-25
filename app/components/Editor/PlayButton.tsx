@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Icon, notification } from 'antd';
+import { colors, fontSize, radius } from '../../theme/tokens';
 import * as Mousetrap from 'mousetrap'
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 import {
@@ -134,7 +135,7 @@ export function PlayButton({ dispatch, state, protoInfo, active }: ControlsState
     <Icon
       type={state.loading ? "pause-circle" : "play-circle"}
       theme="filled"
-      style={{ ...styles.playIcon, ...(state.loading ? { color: "#ea5d5d" } : {}) }}
+      style={{ ...styles.playIcon, ...(state.loading ? { color: colors.danger } : {}) }}
       onClick={() => makeRequest({ dispatch, state, protoInfo })}
     />
   )
@@ -142,11 +143,11 @@ export function PlayButton({ dispatch, state, protoInfo, active }: ControlsState
 
 const styles = {
   playIcon: {
-    fontSize: 50,
-    color: "#28d440",
-    border: "3px solid rgb(238, 238, 238)",
-    borderRadius: "50%",
+    fontSize: fontSize.icon,
+    color: colors.success,
+    border: `3px solid ${colors.borderLight}`,
+    borderRadius: radius.full,
     cursor: "pointer",
-    background: "#fff",
+    background: colors.white,
   },
 };

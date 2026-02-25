@@ -1,5 +1,6 @@
 import { Badge, Dropdown, Icon, Menu } from 'antd';
 import { TabData } from './TabList';
+import { colors, fontSize } from '../../theme/tokens';
 
 interface TabOverflowMenuProps {
   tabs: TabData[];
@@ -37,8 +38,8 @@ export function TabOverflowMenu({ tabs, activeKey, onSelect, serviceColorMap }: 
   return (
     <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
       <div className="tab-overflow-trigger">
-        <Badge count={tabs.length} style={{ backgroundColor: '#1890ff' }}>
-          <Icon type="unordered-list" style={{ fontSize: 16, color: '#555', cursor: 'pointer' }} />
+        <Badge count={tabs.length} style={{ backgroundColor: colors.primary }}>
+          <Icon type="unordered-list" style={{ fontSize: fontSize.md, color: colors.textSecondary, cursor: 'pointer' }} />
         </Badge>
       </div>
     </Dropdown>

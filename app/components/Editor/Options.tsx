@@ -4,6 +4,8 @@ import { EditorAction } from './Editor';
 import {useState} from "react";
 import {TLSManager} from "./TLSManager";
 import { ProtoInfo, Certificate } from '../../behaviour';
+import { colors, fontSize, radius, spacing } from '../../theme/tokens';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface OptionsProps {
   protoInfo: ProtoInfo
@@ -19,19 +21,20 @@ interface OptionsProps {
 export function Options({ dispatch, grpcWebChecked, interactiveChecked, onInteractiveChange, tlsSelected, onTLSSelected, onClickExport }: OptionsProps) {
 
   const [tlsModalVisible, setTlsModalVisible] = useState(false);
+  const { shouldRender: tlsRender, closing: tlsClosing } = useCloseAnimation(tlsModalVisible);
 
   return (
     <div style={{...styles.optionContainer, ...styles.inline}}>
 
-      <div style={{paddingLeft: 15}}>
+      <div style={{paddingLeft: spacing.base}}>
           <div style={{
             display: "flex",
             alignItems: "center",
           }}>
             <Tooltip placement="bottom" title={tlsSelected ? "Secure Connection" : "Unsecure Connection"}>
               {tlsSelected
-                ? <Icon type="lock" style={{ fontSize: 18, color: "#28d440" }} />
-                : <Icon type="unlock" style={{ fontSize: 18, color: "#bdbcbc" }} />
+                ? <Icon type="lock" style={{ fontSize: fontSize.lg, color: colors.success }} />
+                : <Icon type="unlock" style={{ fontSize: fontSize.lg, color: colors.textDisabled }} />
               }
             </Tooltip>
             <span
@@ -50,7 +53,8 @@ export function Options({ dispatch, grpcWebChecked, interactiveChecked, onIntera
                   </div>
               )}
               transitionName="" maskTransitionName=""
-              visible={tlsModalVisible}
+              visible={tlsRender}
+              wrapClassName={tlsClosing ? 'modal-closing' : ''}
               onCancel={() => setTlsModalVisible(false)}
               onOk={() => setTlsModalVisible(false)}
               bodyStyle={{ padding: 0 }}
@@ -76,7 +80,7 @@ export function Options({ dispatch, grpcWebChecked, interactiveChecked, onIntera
             )}
             trigger={['click']}
         >
-          <div style={{ marginRight: 5, marginTop: 2, cursor: 'pointer', color: "#b5b5b5"}} >
+          <div style={{ marginRight: spacing.xs, marginTop: spacing.xxs, cursor: 'pointer', color: colors.textDisabled }} >
             <Icon type="caret-down" />
           </div>
         </Dropdown>
@@ -124,13 +128,13 @@ const styles = {
     alignItems: "center",
   },
   tlsButton: {
-    marginLeft: 10,
+    marginLeft: spacing.sm,
     cursor: "pointer",
-    background: "#fafafa",
-    padding: "1px 10px",
-    borderRadius: "3px",
+    background: colors.bgPanel,
+    padding: `1px ${spacing.sm}px`,
+    borderRadius: `${radius.sm}px`,
     fontWeight: 500,
-    fontSize: "13px",
-    border: "1px solid #d8d8d8",
-  }
+    fontSize: `${fontSize.base}px`,
+    border: `1px solid ${colors.borderLight}`,
+  },
 };

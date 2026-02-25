@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { colors, fontSize, spacing } from '../../theme/tokens';
 
 interface BadgeProps {
   type: "protoFile" | "service" | "method"
@@ -18,21 +19,21 @@ export function Badge({ type, children }: BadgeProps) {
 const styles: {[key: string]: any} = {
   badge: {
     lineHeight: "15px",
-    fontSize: "11px",
-    marginTop: "5px",
-    marginRight: "7px",
+    fontSize: `${fontSize.xs}px`,
+    marginTop: `${spacing.xs}px`,
+    marginRight: `${spacing.sm - 1}px`,
     paddingBottom: "1px",
   },
   protoFile: {
-    backgroundColor: "#15abff",
-    color: "#fff"
+    backgroundColor: colors.primary,
+    color: colors.white,
   },
   service: {
-    backgroundColor: "#ffa733",
-    color: "#fff",
+    backgroundColor: colors.warning,
+    color: colors.white,
   },
   method: {
-    backgroundColor: "#2cc316",
-    color: "#fff",
+    backgroundColor: colors.success,
+    color: colors.white,
   },
 };

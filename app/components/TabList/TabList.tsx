@@ -18,6 +18,7 @@ import { DraggableItem } from "./DraggableTabList";
 import { TabSearchBar } from "./TabSearchBar";
 import { TabOverflowMenu } from "./TabOverflowMenu";
 import { TabUXSettings } from '../../storage/settings';
+import { spacing } from '../../theme/tokens';
 import * as Mousetrap from 'mousetrap';
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
@@ -273,10 +274,10 @@ export function TabList({ tabs, activeKey, onChange, onDelete, onDragEnd, onClos
 
 const styles = {
   tabList: {
-    height: "100%"
+    height: "100%",
   },
   tabBarStyle: {
-    padding: "10px 0px 0px 20px",
+    padding: `${spacing.sm}px 0px 0px ${spacing.lg}px`,
     marginBottom: "0px",
-  }
+  },
 };

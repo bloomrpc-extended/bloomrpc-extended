@@ -1,5 +1,6 @@
 import { Modal, Switch, Icon } from 'antd';
 import { TabUXSettings } from '../../storage/settings';
+import { colors, fontSize, spacing } from '../../theme/tokens';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -18,7 +19,7 @@ export function SettingsModal({ visible, onClose, settings, onSettingsChange }: 
       title={
         <div>
           <Icon type="setting" />
-          <span style={{ marginLeft: 10 }}>Settings</span>
+          <span style={{ marginLeft: spacing.sm }}>Settings</span>
         </div>
       }
       transitionName="" maskTransitionName=""
@@ -27,11 +28,11 @@ export function SettingsModal({ visible, onClose, settings, onSettingsChange }: 
       footer={null}
       width={420}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.base }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: 500 }}>Tab Search</div>
-            <div style={{ fontSize: 12, color: '#888' }}>Filter tabs by method or service name</div>
+            <div style={{ fontSize: fontSize.sm, color: colors.textMuted }}>Filter tabs by method or service name</div>
           </div>
           <Switch checked={settings.tabSearchEnabled} onChange={() => toggle('tabSearchEnabled')} />
         </div>
@@ -39,7 +40,7 @@ export function SettingsModal({ visible, onClose, settings, onSettingsChange }: 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: 500 }}>Tab Grouping</div>
-            <div style={{ fontSize: 12, color: '#888' }}>Color-code tabs by service</div>
+            <div style={{ fontSize: fontSize.sm, color: colors.textMuted }}>Color-code tabs by service</div>
           </div>
           <Switch checked={settings.tabGroupingEnabled} onChange={() => toggle('tabGroupingEnabled')} />
         </div>
@@ -47,7 +48,7 @@ export function SettingsModal({ visible, onClose, settings, onSettingsChange }: 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: 500 }}>Tab Overflow Menu</div>
-            <div style={{ fontSize: 12, color: '#888' }}>Dropdown listing all open tabs</div>
+            <div style={{ fontSize: fontSize.sm, color: colors.textMuted }}>Dropdown listing all open tabs</div>
           </div>
           <Switch checked={settings.tabOverflowMenuEnabled} onChange={() => toggle('tabOverflowMenuEnabled')} />
         </div>

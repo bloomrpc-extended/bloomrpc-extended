@@ -3,6 +3,7 @@ import { RequestType } from "./RequestType";
 import { ChangeEvent, useState } from "react";
 import { ProtoInfo } from "../../behaviour";
 import { EditorEnvironment } from "./Editor";
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 export interface AddressBarProps {
   loading: boolean
@@ -23,6 +24,10 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+  const { shouldRender: saveRender, closing: saveClosing } = useCloseAnimation(saveModalVisible);
+  const { shouldRender: updateRender, closing: updateClosing } = useCloseAnimation(updateModalVisible);
+  const { shouldRender: deleteRender, closing: deleteClosing } = useCloseAnimation(deleteModalVisible);
 
   function handleSave() {
     if (newEnvironmentName) {
@@ -102,7 +107,8 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
         <Modal
           title="Environment Name"
           transitionName="" maskTransitionName=""
-          visible={saveModalVisible}
+          visible={saveRender}
+          wrapClassName={saveClosing ? 'modal-closing' : ''}
           onOk={handleSave}
           onCancel={() => { setSaveModalVisible(false); setNewEnvironmentName(""); }}
           okText="Confirm"
@@ -120,7 +126,8 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
         <Modal
           title={`Update ${currentEnvironmentName}?`}
           transitionName="" maskTransitionName=""
-          visible={updateModalVisible}
+          visible={updateRender}
+          wrapClassName={updateClosing ? 'modal-closing' : ''}
           onOk={handleUpdate}
           onCancel={() => setUpdateModalVisible(false)}
           okText="Confirm"
@@ -132,7 +139,8 @@ export function AddressBar({loading, url, onChangeUrl, protoInfo, defaultEnviron
         <Modal
           title={`Delete ${currentEnvironmentName}?`}
           transitionName="" maskTransitionName=""
-          visible={deleteModalVisible}
+          visible={deleteRender}
+          wrapClassName={deleteClosing ? 'modal-closing' : ''}
           onOk={handleDelete}
           onCancel={() => setDeleteModalVisible(false)}
           okText="Confirm"

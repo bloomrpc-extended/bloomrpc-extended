@@ -5,6 +5,7 @@ import {useState} from "react";
 import {TLSManager} from "./TLSManager";
 import { ProtoInfo, Certificate } from '../../behaviour';
 import { colors, fontSize, radius, spacing } from '../../theme/tokens';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface OptionsProps {
   protoInfo: ProtoInfo
@@ -20,6 +21,7 @@ interface OptionsProps {
 export function Options({ dispatch, grpcWebChecked, interactiveChecked, onInteractiveChange, tlsSelected, onTLSSelected, onClickExport }: OptionsProps) {
 
   const [tlsModalVisible, setTlsModalVisible] = useState(false);
+  const { shouldRender: tlsRender, closing: tlsClosing } = useCloseAnimation(tlsModalVisible);
 
   return (
     <div style={{...styles.optionContainer, ...styles.inline}}>
@@ -51,7 +53,8 @@ export function Options({ dispatch, grpcWebChecked, interactiveChecked, onIntera
                   </div>
               )}
               transitionName="" maskTransitionName=""
-              visible={tlsModalVisible}
+              visible={tlsRender}
+              wrapClassName={tlsClosing ? 'modal-closing' : ''}
               onCancel={() => setTlsModalVisible(false)}
               onOk={() => setTlsModalVisible(false)}
               bodyStyle={{ padding: 0 }}

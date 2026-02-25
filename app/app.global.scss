@@ -202,20 +202,34 @@
   }
 }
 
-// Open-only keyframe animations for modals/drawers.
+// Keyframe animations for modals/drawers.
 // rc-animate is disabled (transitionName="") to avoid flicker
-// with React 18's automatic batching. These fire on mount only.
+// with React 18's automatic batching. Open animations fire on mount;
+// close animations are triggered via a wrapper class added by useCloseAnimation.
+
 @keyframes modalEnter {
   from { opacity: 0; transform: scale(0.85); }
   to   { opacity: 1; transform: scale(1); }
+}
+@keyframes modalExit {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.85); }
 }
 @keyframes maskEnter {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes maskExit {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
 @keyframes drawerSlideRight {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
+}
+@keyframes drawerSlideOut {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
 }
 
 .tab-search-bar {
@@ -251,4 +265,19 @@
 .ant-modal-mask { animation: maskEnter 200ms ease-out; }
 .ant-drawer.ant-drawer-open .ant-drawer-content-wrapper {
   animation: drawerSlideRight 250ms ease-out;
+}
+
+// Exit animations — triggered by useCloseAnimation adding a closing class.
+.modal-closing .ant-modal {
+  animation: modalExit 200ms ease-in forwards !important;
+}
+// :has(+) targets the mask sibling that precedes the closing wrap.
+.ant-modal-mask:has(+ .modal-closing) {
+  animation: maskExit 200ms ease-in forwards !important;
+}
+.ant-drawer.drawer-closing .ant-drawer-content-wrapper {
+  animation: drawerSlideOut 250ms ease-in forwards !important;
+}
+.ant-drawer.drawer-closing > .ant-drawer-mask {
+  animation: maskExit 250ms ease-in forwards !important;
 }

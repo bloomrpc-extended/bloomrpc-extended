@@ -8,6 +8,7 @@ import {UrlResolution} from "./UrlResolution";
 import { SettingsModal } from "../Settings/SettingsModal";
 import { TabUXSettings } from "../../storage/settings";
 import { colors, fontSize, radius, spacing } from '../../theme/tokens';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface SidebarProps {
   protos: ProtoFile[]
@@ -28,6 +29,9 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
   const [filterMatch, setFilterMatch] = useState<string|null>(null);
   const [importReflectionVisible, setImportReflectionVisible] = useState(false);
   const [settingsVisible, setSettingsVisible] = useState(false);
+
+  const { shouldRender: importPathRender, closing: importPathClosing } = useCloseAnimation(importPathVisible);
+  const { shouldRender: reflectionRender, closing: reflectionClosing } = useCloseAnimation(importReflectionVisible);
 
   useEffect(() => {
     setImportPaths(getImportPaths());
@@ -157,7 +161,8 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
                   </div>
               )}
               transitionName="" maskTransitionName=""
-              visible={importPathVisible}
+              visible={importPathRender}
+              wrapClassName={importPathClosing ? 'modal-closing' : ''}
               onCancel={() => setImportPathsVisible(false)}
               onOk={() => setImportPathsVisible(false)}
               bodyStyle={{ padding: 0 }}
@@ -180,7 +185,8 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
               </div>
             )}
             transitionName="" maskTransitionName=""
-            visible={importReflectionVisible}
+            visible={reflectionRender}
+            wrapClassName={reflectionClosing ? 'modal-closing' : ''}
             onCancel={() => setImportReflectionVisible(false)}
             onOk={() => setImportReflectionVisible(false)}
             width={750}

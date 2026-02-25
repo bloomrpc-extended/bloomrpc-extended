@@ -1,6 +1,7 @@
 import { Modal, Switch, Icon } from 'antd';
 import { TabUXSettings } from '../../storage/settings';
 import { colors, fontSize, spacing } from '../../theme/tokens';
+import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -10,6 +11,8 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ visible, onClose, settings, onSettingsChange }: SettingsModalProps) {
+  const { shouldRender, closing } = useCloseAnimation(visible);
+
   function toggle(key: keyof TabUXSettings) {
     onSettingsChange({ ...settings, [key]: !settings[key] });
   }
@@ -23,7 +26,8 @@ export function SettingsModal({ visible, onClose, settings, onSettingsChange }: 
         </div>
       }
       transitionName="" maskTransitionName=""
-      visible={visible}
+      visible={shouldRender}
+      wrapClassName={closing ? 'modal-closing' : ''}
       onCancel={onClose}
       footer={null}
       width={420}

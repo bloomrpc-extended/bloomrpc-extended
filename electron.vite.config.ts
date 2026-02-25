@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { builtinModules, createRequire } from 'module';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-import type { Plugin } from 'vite';
+import type { Plugin, UserConfig } from 'vite';
 
 const nodeRequire = createRequire(__filename);
 
@@ -150,6 +150,9 @@ export default defineConfig({
       }),
       stripModuleAttributes(),
     ],
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
     optimizeDeps: {
       esbuildOptions: {
         plugins: [

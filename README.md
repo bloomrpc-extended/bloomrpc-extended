@@ -10,7 +10,7 @@
   <b>BloomRPC Extended</b> aims to provide the simplest and most efficient developer experience for exploring and querying your gRPC services.
 </p>
 
-<img src="./resources/editor-preview.gif" />
+<img src="./resources/preview.png" />
 
 ## Features
 

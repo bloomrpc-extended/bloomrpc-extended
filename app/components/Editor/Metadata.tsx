@@ -77,7 +77,6 @@ const styles = {
   },
   optionContainer: {
     position: "absolute" as const,
-    fontWeight: 900,
     fontSize: `${fontSize.base}px`,
     borderLeft: `1px solid ${colors.borderSubtle}`,
     background: colors.bgSubtle,

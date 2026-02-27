@@ -29,7 +29,7 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
           basicSetup={{
             lineNumbers: false,
             highlightActiveLine: false,
-            foldGutter: false,
+            foldGutter: true,
             searchKeymap: true,
           }}
           style={{ fontSize: fontSize.base, background: colors.white }}

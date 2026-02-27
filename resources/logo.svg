@@ -23,7 +23,7 @@
  <metadata>
   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
     <rdf:Description
-      about="https://github.com/ahmethakanbesel/bloomrpc-extended"
+      about="https://github.com/bloomrpc-extended/bloomrpc-extended"
       dc:title="BloomRPC Extended Logo"
       dc:description="BloomRPC Extended, gRPC, RPC, Protobuf, Protocol Buffer">
     </rdf:Description>

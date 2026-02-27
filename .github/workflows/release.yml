@@ -85,7 +85,7 @@ jobs:
       - name: Checkout Homebrew tap
         uses: actions/checkout@v4
         with:
-          repository: ahmethakanbesel/homebrew-bloomrpc-extended
+          repository: bloomrpc-extended/homebrew-bloomrpc-extended
           token: ${{ secrets.TAP_GITHUB_TOKEN }}
           path: homebrew-tap
 
@@ -115,7 +115,7 @@ jobs:
       - name: Checkout Scoop bucket
         uses: actions/checkout@v4
         with:
-          repository: ahmethakanbesel/scoop-bloomrpc-extended
+          repository: bloomrpc-extended/scoop-bloomrpc-extended
           token: ${{ secrets.TAP_GITHUB_TOKEN }}
           path: scoop-bucket
 

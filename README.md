@@ -38,20 +38,20 @@
 ### Homebrew (macOS)
 
 ```bash
-brew tap ahmethakanbesel/bloomrpc-extended
+brew tap bloomrpc-extended/bloomrpc-extended
 brew install --cask bloomrpc-extended
 ```
 
 ### Scoop (Windows)
 
 ```bash
-scoop bucket add bloomrpc-extended https://github.com/ahmethakanbesel/scoop-bloomrpc-extended
+scoop bucket add bloomrpc-extended https://github.com/bloomrpc-extended/scoop-bloomrpc-extended
 scoop install bloomrpc-extended
 ```
 
 ### GitHub Releases
 
-Download the latest release for your platform from the [Releases](https://github.com/ahmethakanbesel/bloomrpc-extended/releases) page:
+Download the latest release for your platform from the [Releases](https://github.com/bloomrpc-extended/bloomrpc-extended/releases) page:
 
 - **macOS** — `.dmg`
 - **Windows** — `.exe` installer

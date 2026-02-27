@@ -6,7 +6,7 @@
   "main": "./out/main/index.js",
   "author": {
     "name": "Ahmet Hakan Besel",
-    "email": "ahmethakanbesel@users.noreply.github.com"
+    "email": "bloomrpc-extended@users.noreply.github.com"
   },
   "license": "LGPL3",
   "dependencies": {

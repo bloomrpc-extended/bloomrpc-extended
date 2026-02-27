@@ -26,7 +26,7 @@
   },
   "build": {
     "productName": "BloomRPC Extended",
-    "appId": "io.github.ahmethakanbesel.BloomRPCExtended",
+    "appId": "io.github.bloomrpc-extended.BloomRPCExtended",
     "extraResources": [
       {
         "from": "static",
@@ -87,14 +87,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahmethakanbesel/bloomrpc-extended.git"
+    "url": "git+https://github.com/bloomrpc-extended/bloomrpc-extended.git"
   },
   "author": {
     "name": "Ahmet Hakan Besel"
   },
   "license": "LGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/ahmethakanbesel/bloomrpc-extended/issues"
+    "url": "https://github.com/bloomrpc-extended/bloomrpc-extended/issues"
   },
   "keywords": [
     "gRPC",
@@ -103,7 +103,7 @@
     "BloomRPC Extended",
     "gRPC GUI"
   ],
-  "homepage": "https://github.com/ahmethakanbesel/bloomrpc-extended",
+  "homepage": "https://github.com/bloomrpc-extended/bloomrpc-extended",
   "devDependencies": {
     "@codemirror/lang-json": "^6.0.2",
     "@types/history": "^4.7.2",

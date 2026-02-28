@@ -5,7 +5,7 @@
   "description": "GRPC GUI client",
   "main": "./out/main/index.js",
   "author": {
-    "name": "Ahmet Hakan Besel",
+    "name": "BloomRPC Extended",
     "email": "bloomrpc-extended@users.noreply.github.com"
   },
   "license": "LGPL3",

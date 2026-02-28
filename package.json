@@ -90,7 +90,7 @@
     "url": "git+https://github.com/bloomrpc-extended/bloomrpc-extended.git"
   },
   "author": {
-    "name": "Ahmet Hakan Besel"
+    "name": "BloomRPC Extended"
   },
   "license": "LGPL-3.0-or-later",
   "bugs": {

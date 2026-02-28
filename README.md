@@ -39,7 +39,7 @@
 
 ```bash
 brew tap bloomrpc-extended/bloomrpc-extended
-brew install --cask bloomrpc-extended
+brew install --cask bloomrpc-extended --no-quarantine
 ```
 
 ### Scoop (Windows)

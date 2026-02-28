@@ -57,6 +57,12 @@ Download the latest release for your platform from the [Releases](https://github
 - **Windows** — `.exe` installer
 - **Linux** — `.AppImage` or `.deb`
 
+**Note (macOS):** If you see an error like `"BloomRPC Extended" is damaged and can't be opened`, run the following command to remove the quarantine attribute:
+
+```bash
+xattr -rd /Applications/BloomRPC\ Extended.app
+```
+
 ### Build from Source
 
 #### Prerequisites

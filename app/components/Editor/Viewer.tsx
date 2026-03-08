@@ -1,14 +1,16 @@
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { search } from '@codemirror/search';
 import { colors, fontSize, spacing, zIndex } from '../../theme/tokens';
 
 interface ResponseProps {
   output: string,
   responseTime?: number
   emptyContent?: Node | Element | JSX.Element
+  editorFontSize?: number
 }
 
-export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
+export function Viewer({ output, responseTime, emptyContent, editorFontSize = fontSize.base }: ResponseProps) {
   return (
     <div style={styles.responseContainer}>
       {!output && emptyContent}
@@ -23,7 +25,7 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
         <CodeMirror
           value={output}
           height={"calc(100vh - 188px)"}
-          extensions={[json()]}
+          extensions={[json(), search()]}
           readOnly
           editable={false}
           basicSetup={{
@@ -32,7 +34,7 @@ export function Viewer({ output, responseTime, emptyContent }: ResponseProps) {
             foldGutter: true,
             searchKeymap: true,
           }}
-          style={{ fontSize: fontSize.base, background: colors.white }}
+          style={{ fontSize: editorFontSize, background: colors.white }}
         />
       )}
     </div>

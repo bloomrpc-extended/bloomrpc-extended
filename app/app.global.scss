@@ -281,3 +281,56 @@
 .ant-drawer.drawer-closing > .ant-drawer-mask {
   animation: maskExit 250ms ease-in forwards !important;
 }
+
+// CodeMirror search panel styling
+.cm-editor .cm-search {
+  &.cm-panel {
+    background: var(--color-bg-panel);
+    border-bottom: 1px solid var(--color-border-light);
+    padding: 4px 8px;
+
+    input, button {
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    input {
+      border: 1px solid var(--color-border-light);
+      background: #fff;
+      outline: none;
+
+      &:focus {
+        border-color: var(--color-primary);
+      }
+    }
+
+    button {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border-light);
+      cursor: pointer;
+      margin-left: 2px;
+
+      &:hover {
+        background: var(--color-bg-highlight);
+      }
+    }
+
+    label {
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    .cm-button {
+      background: var(--color-bg-subtle);
+    }
+  }
+}
+
+.cm-editor .cm-searchMatch {
+  background-color: rgba(255, 226, 143, 0.6);
+}
+
+.cm-editor .cm-searchMatch-selected {
+  background-color: rgba(255, 200, 0, 0.6);
+}

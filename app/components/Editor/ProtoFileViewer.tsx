@@ -2,15 +2,17 @@ import { Drawer } from 'antd';
 import { ProtoInfo } from '../../behaviour';
 import { colors, fontSize, spacing } from '../../theme/tokens';
 import CodeMirror from '@uiw/react-codemirror';
+import { search } from '@codemirror/search';
 import { useCloseAnimation } from '../../hooks/useCloseAnimation';
 
 interface ProtoFileViewerProps {
   protoInfo: ProtoInfo
   visible: boolean
   onClose: () => void
+  editorFontSize?: number
 }
 
-export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewerProps) {
+export function ProtoFileViewer({ protoInfo, visible, onClose, editorFontSize = fontSize.base }: ProtoFileViewerProps) {
   const { shouldRender, closing } = useCloseAnimation(visible, 250);
 
   return (
@@ -27,14 +29,16 @@ export function ProtoFileViewer({ protoInfo, visible, onClose }: ProtoFileViewer
       <CodeMirror
         value={protoInfo.service.proto.protoText}
         height={"calc(100vh - 115px)"}
+        extensions={[search()]}
         readOnly
         editable={false}
         basicSetup={{
           lineNumbers: false,
           highlightActiveLine: false,
           foldGutter: false,
+          searchKeymap: true,
         }}
-        style={{ marginTop: `${spacing.sm}px`, fontSize: fontSize.base, background: colors.white }}
+        style={{ marginTop: `${spacing.sm}px`, fontSize: editorFontSize, background: colors.white }}
       />
     </Drawer>
   );

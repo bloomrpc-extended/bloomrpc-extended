@@ -9,6 +9,7 @@ import {
   setProtoVisibility,
   setTSLCertificate,
   setUrl,
+  setGrpcWeb,
 } from './actions';
 import { Response } from './Response';
 import { Metadata } from './Metadata';
@@ -37,6 +38,7 @@ export interface EditorEnvironment {
   metadata: string,
   interactive: boolean
   tlsCertificate: Certificate,
+  grpcWeb: boolean,
 }
 
 export interface EditorRequest {
@@ -256,6 +258,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
                 dispatch(setEnvironment(environment.name));
                 dispatch(setTSLCertificate(environment.tlsCertificate));
                 dispatch(setInteractive(environment.interactive));
+                dispatch(setGrpcWeb(environment.grpcWeb ?? false));
 
                 onRequestChange?.({
                   ...state,
@@ -264,6 +267,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
                   metadata: environment.metadata,
                   tlsCertificate: environment.tlsCertificate,
                   interactive: environment.interactive,
+                  grpcWeb: environment.grpcWeb ?? false,
                 });
               }}
               onEnvironmentDelete={(environmentName) => {
@@ -284,6 +288,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
                   interactive: state.interactive,
                   metadata: state.metadata,
                   tlsCertificate: state.tlsCertificate,
+                  grpcWeb: state.grpcWeb,
                 });
 
                 dispatch(setEnvironment(environmentName));

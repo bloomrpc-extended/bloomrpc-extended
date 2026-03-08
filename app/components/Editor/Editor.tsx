@@ -1,4 +1,6 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import * as Mousetrap from 'mousetrap';
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 import {
   actions,
   setData, setEnvironment, setInteractive,
@@ -22,6 +24,7 @@ import { colors, shadow, spacing, zIndex } from '../../theme/tokens';
 import { Resizable } from "re-resizable";
 import { AddressBar } from "./AddressBar";
 import { deleteEnvironment, getEnvironments, saveEnvironment } from "../../storage/environments";
+import { getTabUXSettings, storeTabUXSettings, EDITOR_FONT_SIZES } from "../../storage/settings";
 
 export interface EditorAction {
   [key: string]: any
@@ -163,6 +166,50 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
     environment: (initialRequest && initialRequest.environment),
   });
 
+  const [editorFontSize, setEditorFontSize] = useState(() => getTabUXSettings().editorFontSize);
+
+  const handleEditorFontSizeChange = (size: number) => {
+    setEditorFontSize(size);
+    const settings = getTabUXSettings();
+    storeTabUXSettings({ ...settings, editorFontSize: size });
+  };
+
+  // Keyboard shortcuts for zoom (Cmd/Ctrl + Plus/Minus/0)
+  useEffect(() => {
+    if (!active) return;
+
+    const zoomIn = () => {
+      const currentIndex = EDITOR_FONT_SIZES.indexOf(editorFontSize as typeof EDITOR_FONT_SIZES[number]);
+      if (currentIndex < EDITOR_FONT_SIZES.length - 1) {
+        handleEditorFontSizeChange(EDITOR_FONT_SIZES[currentIndex + 1]);
+      }
+      return false;
+    };
+
+    const zoomOut = () => {
+      const currentIndex = EDITOR_FONT_SIZES.indexOf(editorFontSize as typeof EDITOR_FONT_SIZES[number]);
+      if (currentIndex > 0) {
+        handleEditorFontSizeChange(EDITOR_FONT_SIZES[currentIndex - 1]);
+      }
+      return false;
+    };
+
+    const resetZoom = () => {
+      handleEditorFontSizeChange(13); // Default font size
+      return false;
+    };
+
+    Mousetrap.bindGlobal(['mod+=', 'mod+plus'], zoomIn);
+    Mousetrap.bindGlobal(['mod+-', 'mod+minus'], zoomOut);
+    Mousetrap.bindGlobal('mod+0', resetZoom);
+
+    return () => {
+      Mousetrap.unbind(['mod+=', 'mod+plus']);
+      Mousetrap.unbind(['mod+-', 'mod+minus']);
+      Mousetrap.unbind('mod+0');
+    };
+  }, [active, editorFontSize]);
+
   useEffect(() => {
     if (protoInfo && !initialRequest) {
       try {
@@ -300,6 +347,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
             data={state.data}
             streamData={state.requestStreamData}
             active={active}
+            editorFontSize={editorFontSize}
             onChangeData={(value) => {
               dispatch(setData(value));
               onRequestChange?.({
@@ -326,6 +374,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
           <Response
             streamResponse={state.responseStreamData}
             response={state.response}
+            editorFontSize={editorFontSize}
           />
         </div>
       </div>
@@ -342,6 +391,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
           });
         }}
         value={state.metadata}
+        editorFontSize={editorFontSize}
       />
 
       {protoInfo && (
@@ -349,6 +399,7 @@ export function Editor({ protoInfo, initialRequest, onRequestChange, onEnvironme
           protoInfo={protoInfo}
           visible={state.protoViewVisible}
           onClose={() => dispatch(setProtoVisibility(false))}
+          editorFontSize={editorFontSize}
         />
       )}
     </div>

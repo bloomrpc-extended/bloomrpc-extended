@@ -4,15 +4,17 @@ import { storeMetadata } from "../../storage";
 import { useState } from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { search } from '@codemirror/search';
 import { colors, fontSize, spacing, zIndex } from '../../theme/tokens';
 
 interface MetadataProps {
   onClickMetadata: () => void,
   onMetadataChange: (value: string) => void,
   value: string,
+  editorFontSize?: number,
 }
 
-export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataProps) {
+export function Metadata({ onClickMetadata, onMetadataChange, value, editorFontSize = fontSize.base }: MetadataProps) {
   const [height, setHeight] = useState(38);
   const visibile = height > 38;
 
@@ -51,7 +53,7 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
           <CodeMirror
             value={value}
             height={`${height + 20}px`}
-            extensions={[json()]}
+            extensions={[json(), search()]}
             onChange={(value) => {
               storeMetadata(value);
               onMetadataChange(value);
@@ -60,8 +62,9 @@ export function Metadata({ onClickMetadata, onMetadataChange, value }: MetadataP
               lineNumbers: true,
               highlightActiveLine: false,
               foldGutter: false,
+              searchKeymap: true,
             }}
-            style={{ fontSize: fontSize.base, background: colors.bgSubtle }}
+            style={{ fontSize: editorFontSize, background: colors.bgSubtle }}
           />
         </div>
       </div>

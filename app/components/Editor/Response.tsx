@@ -7,9 +7,10 @@ import logoIcon from './../../../resources/icons/128x128.png';
 interface ResponseProps {
   streamResponse: EditorResponse[]
   response: EditorResponse
+  editorFontSize?: number
 }
 
-export function Response({response, streamResponse}: ResponseProps) {
+export function Response({response, streamResponse, editorFontSize}: ResponseProps) {
   const defaultKey = `responseTab`;
 
   return (
@@ -24,6 +25,7 @@ export function Response({response, streamResponse}: ResponseProps) {
             <Viewer
               output={response.output}
               responseTime={response.responseTime}
+              editorFontSize={editorFontSize}
               emptyContent={(
                 <div style={{position: "relative", height: "325px"}}>
                   <div style={styles.introContainer}>
@@ -40,6 +42,7 @@ export function Response({response, streamResponse}: ResponseProps) {
               <Viewer
                 output={data.output}
                 responseTime={data.responseTime}
+                editorFontSize={editorFontSize}
               />
             </Tabs.TabPane>
           ))

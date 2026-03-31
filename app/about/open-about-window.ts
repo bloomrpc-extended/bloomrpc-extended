@@ -56,16 +56,15 @@ export default function openAboutWindow(parentWindow: BrowserWindow) {
   aboutWin.webContents.once('dom-ready', () => {
     if (!aboutWin) return;
 
-    const pkgDep = require('../../package.json');
     const info = {
       icon_path: icon,
-      product_name: pkgDep.productName,
-      copyright: pkgDep.license,
-      homepage: pkgDep.homepage,
-      description: pkgDep.description,
-      license: pkgDep.license,
-      bug_report_url: pkgDep.bugs.url,
-      version: pkgDep.version,
+      product_name: PRODUCT_NAME,
+      copyright: COPYRIGHT,
+      homepage: HOMEPAGE,
+      description: DESCRIPTION,
+      license: LICENSE,
+      bug_report_url: BUG_REPORT_URL,
+      version: VERSION,
       use_version_info: true,
     };
 

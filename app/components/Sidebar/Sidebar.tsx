@@ -14,6 +14,7 @@ interface SidebarProps {
   protos: ProtoFile[]
   onMethodSelected: (methodName: string, protoService: ProtoService) => void
   onProtoUpload: OnProtoUpload
+  onProtoDelete: (protoPath: string) => void
   onDeleteAll: () => void
   onReload: () => void
   onMethodDoubleClick: (methodName: string, protoService: ProtoService) => void
@@ -21,7 +22,7 @@ interface SidebarProps {
   onSettingsChange: (settings: TabUXSettings) => void
 }
 
-export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, onReload, onMethodDoubleClick, settings, onSettingsChange }: SidebarProps) {
+export function Sidebar({ protos, onMethodSelected, onProtoUpload, onProtoDelete, onDeleteAll, onReload, onMethodDoubleClick, settings, onSettingsChange }: SidebarProps) {
 
   const [importPaths, setImportPaths] = useState<string[]>([""]);
   const [importPathVisible, setImportPathsVisible] = useState(false);
@@ -71,6 +72,31 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
     if (filterVisible) {
       setFilterMatch(null);
     }
+  }
+
+  function renderProtoTitle(proto: ProtoFile) {
+    const overlay = (
+      <Menu>
+        <Menu.Item
+          key="remove"
+          onClick={(event) => {
+            event.domEvent.stopPropagation();
+            onProtoDelete(proto.proto.filePath);
+          }}
+        >
+          <Icon type="delete" />
+          <span style={{ marginLeft: spacing.xs }}>Remove proto</span>
+        </Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={overlay} trigger={['contextMenu']}>
+        <div style={styles.protoTitle}>
+          <span style={styles.protoTitleText}>{proto.fileName}</span>
+        </div>
+      </Dropdown>
+    );
   }
 
   return (
@@ -251,14 +277,14 @@ export function Sidebar({ protos, onMethodSelected, onProtoUpload, onDeleteAll, 
           {protos.map((proto) => (
             <Tree.TreeNode
               icon={() => <Badge type="protoFile"> P </Badge>}
-              title={proto.fileName}
-              key={proto.fileName}
+              title={renderProtoTitle(proto)}
+              key={proto.proto.filePath}
             >
               {Object.keys(proto.services).map((service) => (
                 <Tree.TreeNode
                   icon={<Badge type="service"> S </Badge>}
                   title={service}
-                  key={`${proto.fileName}-${service}`}
+                  key={`${proto.proto.filePath}||service:${service}`}
                 >
                   {proto.services[service].methodsName
                     .filter((name) => {
@@ -314,5 +340,14 @@ const styles = {
     display: "flex",
     alignContent: "space-between",
     borderBottom: `1px solid ${colors.borderLight}`,
+  },
+  protoTitle: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: spacing.sm,
+  },
+  protoTitleText: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 };
